@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0",
+  "name": "likeline",
+  "description": "## Description LikeLine is an engaging and interactive Instagram clone designed exclusively for students to practice their latest web development techniques. It is structured as a monorepo using npm workspaces, with dedicated folders for both the backend and frontend components. This comprehensive README will guide you on setting up and running the project on your local machine.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "workspaces": [
+    "packages/**/*"
+  ],
+  "private": true,
+  "keywords": [],
+  "author": "pmartinsdev",
+  "license": "MIT",
+  "devDependencies": {
+    "@likeline/eslint": "*",
+    "@likeline/ts-config": "*",
+    "@types/node": "^20.4.2",
+    "typescript": "^5.1.6"
+  }
+}
