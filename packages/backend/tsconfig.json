@@ -1,3 +1,7 @@
 {
-  "extends": "@likeline/ts-config/base.json"
+  "extends": "@likeline/ts-config/base.json",
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  }
 }

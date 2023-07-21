@@ -1,16 +1,30 @@
-import { Request, Response } from "express"
+import { Request, Response } from "express";
+import { CreateUserDTO } from "../dtos/create-user";
+import { Service } from "../dtos/service";
+import { User } from "../../../../domains/user";
+import { inject, injectable } from "tsyringe";
+import { CREATE_USER_SERVICE_CONTAINER } from "../../../constants/containers";
+import { ResolveController } from "../../../infraestructures/decorators/resolve-controller";
 
-import { CreateUserDTO } from "../dtos/create-user"
-import { CreateUserService } from "../services/create"
-
+@injectable()
 export class CreateUserController {
-  static async execute(request: Request, response: Response) {
-    const { name, email, password, username, confirmPassword }: CreateUserDTO = request.body
+  constructor(
+    @inject(CREATE_USER_SERVICE_CONTAINER)
+    private readonly service: Service<CreateUserDTO, User>
+  ) { }
 
-    await CreateUserService.execute({
-      name, email, password, username, confirmPassword
-    })
+  @ResolveController(CreateUserController)
+  async execute(req: Request, res: Response): Promise<void> {
+    const { name, email, password, username, confirmPassword }: CreateUserDTO = req.body;
 
-    return response.json({ ok: true })
+    const user = await this.service.execute({
+      name,
+      email,
+      password,
+      username,
+      confirmPassword,
+    });
+
+    res.json(user);
   }
 }
