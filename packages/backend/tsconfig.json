@@ -1,0 +1,3 @@
+{
+  "extends": "@likeline/ts-config/base.json"
+}
