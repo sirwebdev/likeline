@@ -4,9 +4,9 @@ import { MongoRepository } from "typeorm";
 import { dataSource } from "../datasource";
 import { UserEntity } from "../entities/user";
 
-import { User } from "@api/domains/user";
-import { UserRepository } from "@api/infraestructures/repositories/user";
-import { CreateUserDTO } from "@api/api/endpoints/user/dtos/create-user";
+import { User } from "@domains/user";
+import { UserRepository } from "@infraestructures/repositories/user";
+import { CreateUserDTO } from "@api/endpoints/user/dtos/create-user";
 
 @injectable()
 export class TypeormUserRepository implements UserRepository {

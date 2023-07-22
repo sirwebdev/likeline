@@ -2,11 +2,9 @@ import { inject, injectable } from "tsyringe"
 
 import { Service } from "../dtos/service"
 import { CreateUserDTO } from "../dtos/create-user"
-
-import { User } from "@api/domains/user"
-import { UserRepository } from "@api/infraestructures/repositories/user"
-import { USER_REPOSITORY_CONTAINER } from "@api/api/constants/containers"
-
+import { USER_REPOSITORY_CONTAINER } from "@api/constants/containers"
+import { UserRepository } from "@infraestructures/repositories/user"
+import { User } from "@domains/user"
 
 @injectable()
 export class CreateUserService implements Service<CreateUserDTO, User> {

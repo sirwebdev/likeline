@@ -6,7 +6,7 @@ import express, { Express } from 'express'
 import '@infraestructures/containers'
 
 import { apiRoutes } from "./routes"
-import { dataSource } from "@api/infraestructures/typeorm/datasource"
+import { dataSource } from "@infraestructures/typeorm/datasource"
 
 const GLOBAL_PREFIX = '/api'
 
