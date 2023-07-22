@@ -2,6 +2,12 @@
   "extends": "@likeline/ts-config/base.json",
   "compilerOptions": {
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "paths": {
+      "@api/*": "api/*",
+      "@tests/*": "tests/*",
+      "@domain/*": "domain/*",
+      "@infraestructures/*": "infraestructures/*"
+    }
   }
 }
