@@ -1,0 +1,16 @@
+{
+  "name": "@likeline/jest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^29.6.1"
+  },
+  "devDependencies": {
+    "ts-jest": "^29.1.1"
+  }
+}

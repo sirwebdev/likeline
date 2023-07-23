@@ -1,0 +1,16 @@
+{
+  "preset": "ts-jest",
+  "testEnvironment": "node",
+  "bail": true,
+  "clearMocks": true,
+  "colectCoverage": true,
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest",
+  },
+  "roots": [
+    "<rootDir>"
+  ],
+  "coveragePathIgnorePatterns": [
+    "/node_modules/"
+  ],
+}
