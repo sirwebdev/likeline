@@ -13,7 +13,17 @@ export class CreateUserService implements Service<CreateUserDTO, User> {
     private readonly userRepository: UserRepository) { }
 
   async execute(payload: CreateUserDTO): Promise<User> {
-    const user = await this.userRepository.create(payload)
+    const { confirmPassword, ...threatedPayload } = payload
+
+    if (confirmPassword !== threatedPayload.password) throw new Error('Confirm password does not match with password')
+
+    const foundUserEmail = await this.userRepository.findByEmail(threatedPayload.email);
+    if (foundUserEmail) throw new Error('User already exists with this email')
+
+    const foundUserUsername = await this.userRepository.findByUsername(threatedPayload.username);
+    if (foundUserUsername) throw new Error('User already exists with this username')
+
+    const user = await this.userRepository.create(threatedPayload)
 
     return user
   }

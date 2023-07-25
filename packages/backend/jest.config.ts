@@ -1,4 +1,7 @@
-import type { Config } from 'jest';
+import type { Config } from 'jest'
+import { pathsToModuleNameMapper } from 'ts-jest';
+
+import { compilerOptions } from './tsconfig.json';
 
 const config: Config = {
   preset: "ts-jest",
@@ -6,7 +9,6 @@ const config: Config = {
   bail: true,
   clearMocks: true,
   collectCoverage: true,
-  testMatch: ["__test__/**/*.spec.{ts|js}"],
   transform: {
     "^.+\\.(t|j)s$": "ts-jest",
   },
@@ -14,6 +16,10 @@ const config: Config = {
   roots: [
     "<rootDir>"
   ],
+  setupFilesAfterEnv: ["<rootDir>/__test__/setup.ts"],
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
+    prefix: '<rootDir>/',
+  }),
   coveragePathIgnorePatterns: [
     "/node_modules/"
   ],
