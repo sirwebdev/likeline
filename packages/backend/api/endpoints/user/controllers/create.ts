@@ -4,7 +4,7 @@ import { inject, injectable } from "tsyringe";
 import { Service } from "../dtos/service";
 import { CreateUserDTO } from "../dtos/create-user";
 
-import { User } from "@domains/user";
+import { User } from "@domains/entities/user";
 import { CREATE_USER_SERVICE_CONTAINER } from "@api/constants/containers";
 import { ResolveController } from "@infraestructures/decorators/resolve-controller";
 

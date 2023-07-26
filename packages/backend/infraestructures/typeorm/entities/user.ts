@@ -1,6 +1,6 @@
 import { Column, Entity, ObjectId, ObjectIdColumn } from "typeorm";
 
-import { User } from "@domains/user";
+import { User } from "@domains/entities/user";
 
 @Entity()
 export class UserEntity implements User {

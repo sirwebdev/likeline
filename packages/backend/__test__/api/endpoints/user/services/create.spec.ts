@@ -1,8 +1,8 @@
-import { CreateUserService } from "@api/endpoints/user/services/create"
 import { UserRepository } from "@infraestructures/repositories/user"
-import { MockClass, createMockFromClass } from "../../../../utils/create-mock-from-class"
 import { CreateUserDTO } from "@api/endpoints/user/dtos/create-user"
+import { CreateUserService } from "@api/endpoints/user/services/create"
 import { TypeormUserRepository } from "@infraestructures/typeorm/repositories/user"
+import { MockClass, createMockFromClass } from "../../../../utils/create-mock-from-class"
 
 let service: CreateUserService
 let repository: MockClass<UserRepository>
@@ -17,7 +17,7 @@ describe("CreateUserService", () => {
   })
 
   describe("Successful cases", () => {
-    it("Should create a new user if it does not exist", async () => {
+    it("Must create a new user if it does not exist", async () => {
       const { confirmPassword, ...payload } = userPayload;
       await service.execute(userPayload)
       expect(repository.create).toHaveBeenCalledWith(payload)
@@ -25,19 +25,19 @@ describe("CreateUserService", () => {
   })
 
   describe("Error cases", () => {
-    it("Should not create a new user if the email already exists", async () => {
+    it("Must not create a new user if the email already exists", async () => {
       repository.findByEmail.mockResolvedValue(userPayload);
       await expect(service.execute(userPayload)).rejects.toThrowError('User already exists with this email');
       expect(repository.create).not.toHaveBeenCalled()
     })
 
-    it("Should not create a new user if the username already exists", async () => {
+    it("Must not create a new user if the username already exists", async () => {
       repository.findByUsername.mockResolvedValue(userPayload);
       await expect(service.execute(userPayload)).rejects.toThrowError('User already exists with this username');
       expect(repository.create).not.toHaveBeenCalled()
     })
 
-    it("Should not create a new user if the confirm password does not match with the password", async () => {
+    it("Must not create a new user if the confirm password does not match with the password", async () => {
       const wrongPayload = { ...userPayload, confirmPassword: 'wrongPassword' };
       await expect(service.execute(wrongPayload)).rejects.toThrowError('Confirm password does not match with password');
       expect(repository.create).not.toHaveBeenCalled()
@@ -45,7 +45,7 @@ describe("CreateUserService", () => {
   })
 
   describe("Data treatment", () => {
-    it("Should not send confirmPassword to create method", async () => {
+    it("Must not send confirmPassword to create method", async () => {
       await service.execute(userPayload)
 
       expect(repository.create).toHaveBeenCalledWith(
@@ -53,7 +53,7 @@ describe("CreateUserService", () => {
       );
     })
 
-    it("Should encrypt password before sending it to repository", async () => {
+    it("Must encrypt password before sending it to repository", async () => {
       await service.execute(userPayload)
 
       expect(repository.create).toHaveBeenCalledWith(

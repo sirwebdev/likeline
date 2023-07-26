@@ -4,7 +4,7 @@ import { MongoRepository } from "typeorm";
 import { dataSource } from "../datasource";
 import { UserEntity } from "../entities/user";
 
-import { User } from "@domains/user";
+import { User } from "@domains/entities/user";
 import { UserRepository } from "@infraestructures/repositories/user";
 import { CreateUserDTO } from "@api/endpoints/user/dtos/create-user";
 
