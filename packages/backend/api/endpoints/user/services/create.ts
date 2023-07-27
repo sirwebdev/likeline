@@ -4,7 +4,7 @@ import { Service } from "../dtos/service"
 import { CreateUserDTO } from "../dtos/create-user"
 
 import { User } from "@domains/entities/user"
-import { UserRepository } from "@infraestructures/repositories/user"
+import { UserRepository } from "@infrastructures/repositories/user"
 import { ENCRYPTION_SERVICE_CONTAINER, USER_REPOSITORY_CONTAINER } from "@api/constants/containers"
 import { EncryptionService } from "@domains/interfaces/encription-service"
 

@@ -5,7 +5,7 @@ import { dataSource, isTestEnvironment } from "../datasource";
 import { UserEntity } from "../entities/user";
 
 import { User } from "@domains/entities/user";
-import { UserRepository } from "@infraestructures/repositories/user";
+import { UserRepository } from "@infrastructures/repositories/user";
 import { CreateUserDTO } from "@api/endpoints/user/dtos/create-user";
 
 @injectable()

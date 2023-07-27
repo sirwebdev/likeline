@@ -6,7 +6,7 @@ import { CreateUserDTO } from "../dtos/create-user";
 
 import { User } from "@domains/entities/user";
 import { CREATE_USER_SERVICE_CONTAINER } from "@api/constants/containers";
-import { ResolveController } from "@infraestructures/decorators/resolve-controller";
+import { ResolveController } from "@infrastructures/decorators/resolve-controller";
 
 
 @injectable()

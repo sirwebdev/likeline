@@ -13,8 +13,8 @@
       "@domains/*": [
         "domains/*"
       ],
-      "@infraestructures/*": [
-        "infraestructures/*"
+      "@infrastructures/*": [
+        "infrastructures/*"
       ]
     }
   }

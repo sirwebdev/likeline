@@ -3,10 +3,10 @@ import 'reflect-metadata'
 
 import express, { Express } from 'express'
 
-import '@infraestructures/containers'
+import '@infrastructures/containers'
 
 import { apiRoutes } from "./routes"
-import { dataSource } from "@infraestructures/typeorm/datasource"
+import { dataSource } from "@infrastructures/typeorm/datasource"
 
 export const GLOBAL_PREFIX = '/api'
 
