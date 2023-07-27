@@ -3,24 +3,33 @@ import { CreateUserDTO } from "@api/endpoints/user/dtos/create-user"
 import { CreateUserService } from "@api/endpoints/user/services/create"
 import { TypeormUserRepository } from "@infraestructures/typeorm/repositories/user"
 import { MockClass, createMockFromClass } from "../../../../utils/create-mock-from-class"
+import { EncryptionService } from "@domains/interfaces/encription-service"
+import BcryptService from "@domains/services/encryption/bcrypt-service.ts"
 
 let service: CreateUserService
 let repository: MockClass<UserRepository>
+let encryptionService: MockClass<EncryptionService>
 
-describe("CreateUserService", () => {
+describe("SERVICE - CreateUser", () => {
   let userPayload: CreateUserDTO;
 
   beforeEach(() => {
     repository = createMockFromClass(TypeormUserRepository as any)
-    service = new CreateUserService(repository)
+    encryptionService = createMockFromClass(BcryptService as any)
+    service = new CreateUserService(repository, encryptionService)
     userPayload = { name: 'John Doe', username: 'me_doe', email: 'doe@email.com', password: '123', confirmPassword: '123' }
   })
 
   describe("Successful cases", () => {
+    const ENCRYPTED_PASSWORD = 'ENCRYPTED_PASSWORD'
     it("Must create a new user if it does not exist", async () => {
+      encryptionService.hashPassword.mockReturnValue(ENCRYPTED_PASSWORD)
       const { confirmPassword, ...payload } = userPayload;
       await service.execute(userPayload)
-      expect(repository.create).toHaveBeenCalledWith(payload)
+      expect(repository.create).toHaveBeenCalledWith({
+        ...payload,
+        password: ENCRYPTED_PASSWORD
+      })
     })
   })
 

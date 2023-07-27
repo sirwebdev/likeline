@@ -17,7 +17,7 @@ export class CreateUserController {
   ) { }
 
   @ResolveController(CreateUserController)
-  async execute(req: Request, res: Response): Promise<void> {
+  async execute(req: Request, res: Response) {
     const { name, email, password, username, confirmPassword }: CreateUserDTO = req.body;
 
     const user = await this.service.execute({
@@ -28,6 +28,8 @@ export class CreateUserController {
       confirmPassword,
     });
 
-    res.json(user);
+    const { password: _, ...userWithoutPassword } = user
+
+    return res.status(201).json(userWithoutPassword);
   }
 }

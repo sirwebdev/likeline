@@ -1,7 +1,7 @@
 import { injectable } from "tsyringe";
-import { MongoRepository } from "typeorm";
+import { MongoRepository, Repository } from "typeorm";
 
-import { dataSource } from "../datasource";
+import { dataSource, isTestEnvironment } from "../datasource";
 import { UserEntity } from "../entities/user";
 
 import { User } from "@domains/entities/user";
@@ -10,10 +10,12 @@ import { CreateUserDTO } from "@api/endpoints/user/dtos/create-user";
 
 @injectable()
 export class TypeormUserRepository implements UserRepository {
-  private repository: MongoRepository<UserEntity>
+  private repository: MongoRepository<UserEntity> | Repository<UserEntity>
 
   constructor() {
-    this.repository = dataSource.getMongoRepository(UserEntity)
+    const methodBasedOnEnvironment = isTestEnvironment ? 'getRepository' : 'getMongoRepository'
+
+    this.repository = dataSource[methodBasedOnEnvironment](UserEntity)
   }
 
   async create(payload: Omit<CreateUserDTO, 'confirmPassword'>): Promise<User> {

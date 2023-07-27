@@ -8,25 +8,12 @@ import '@infraestructures/containers'
 import { apiRoutes } from "./routes"
 import { dataSource } from "@infraestructures/typeorm/datasource"
 
-const GLOBAL_PREFIX = '/api'
+export const GLOBAL_PREFIX = '/api'
 
 export class Server {
-  private api: Express = express()
+  protected api: Express = express()
 
-  constructor() {
-    this.setup().then(() => {
-    })
-  }
-
-  private async connectIntoDB() {
-    await dataSource.initialize().then(() =>
-      console.log('Connected to database successfuly !')
-    ).catch((error) =>
-      console.error('Failed to connect into database', error)
-    )
-  }
-
-  private async setup() {
+  protected async setup() {
     await this.connectIntoDB()
 
     this.api.use(express.json())
@@ -34,11 +21,22 @@ export class Server {
     this.useRoutes()
   }
 
+  protected async connectIntoDB() {
+    await dataSource.initialize().then(() =>
+      console.log('Connected to database successfuly !')
+    ).catch((error) =>
+      console.error('Failed to connect into database', error)
+    )
+  }
+
+
   private useRoutes() {
     this.api.use(GLOBAL_PREFIX, apiRoutes)
   }
 
-  public init(port: number) {
+  public async init(port: number) {
+    await this.setup()
+
     this.api.listen(port, () => {
       console.log(`Server listening on port: ${port}.`, ` Try http://localhost:${port}`)
     })
