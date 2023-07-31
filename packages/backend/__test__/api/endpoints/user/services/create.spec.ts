@@ -4,7 +4,7 @@ import { CreateUserService } from "@api/endpoints/user/services/create"
 import { TypeormUserRepository } from "@infrastructures/typeorm/repositories/user"
 import { MockClass, createMockFromClass } from "../../../../utils/create-mock-from-class"
 import { EncryptionService } from "@domains/interfaces/encription-service"
-import BcryptService from "@domains/services/encryption/bcrypt-service.ts"
+import { BcryptService } from "@domains/services/encryption/bcrypt-service.ts"
 
 let service: CreateUserService
 let repository: MockClass<UserRepository>

@@ -7,6 +7,7 @@ import { User } from "@domains/entities/user"
 import { UserRepository } from "@infrastructures/repositories/user"
 import { ENCRYPTION_SERVICE_CONTAINER, USER_REPOSITORY_CONTAINER } from "@api/constants/containers"
 import { EncryptionService } from "@domains/interfaces/encription-service"
+import { ApiRequestError } from "@infrastructures/error-handling/api-request-error"
 
 @injectable()
 export class CreateUserService implements Service<CreateUserDTO, User> {
@@ -20,13 +21,13 @@ export class CreateUserService implements Service<CreateUserDTO, User> {
   async execute(payload: CreateUserDTO): Promise<User> {
     const { confirmPassword, ...threatedPayload } = payload
 
-    if (confirmPassword !== threatedPayload.password) throw new Error('Confirm password does not match with password')
+    if (confirmPassword !== threatedPayload.password) throw new ApiRequestError('Confirm password does not match with password', 400)
 
     const foundUserEmail = await this.userRepository.findByEmail(threatedPayload.email);
-    if (foundUserEmail) throw new Error('User already exists with this email')
+    if (foundUserEmail) throw new ApiRequestError('User already exists with this email', 409)
 
     const foundUserUsername = await this.userRepository.findByUsername(threatedPayload.username);
-    if (foundUserUsername) throw new Error('User already exists with this username')
+    if (foundUserUsername) throw new ApiRequestError('User already exists with this username', 409)
 
     const { password } = threatedPayload
 

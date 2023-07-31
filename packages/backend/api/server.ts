@@ -1,5 +1,6 @@
 import "dotenv/config"
 import 'reflect-metadata'
+import 'express-async-errors'
 
 import express, { Express } from 'express'
 
@@ -7,6 +8,7 @@ import '@infrastructures/containers'
 
 import { apiRoutes } from "./routes"
 import { dataSource } from "@infrastructures/typeorm/datasource"
+import { CentralizedErrorHandler } from "@infrastructures/error-handling/centralized-error-handler"
 
 export const GLOBAL_PREFIX = '/api'
 
@@ -16,9 +18,10 @@ export class Server {
   protected async setup() {
     await this.connectIntoDB()
 
-    this.api.use(express.json())
-
+    this.useMiddlewares()
     this.useRoutes()
+
+    this.api.use(CentralizedErrorHandler)
   }
 
   protected async connectIntoDB() {
@@ -27,6 +30,10 @@ export class Server {
     ).catch((error) =>
       console.error('Failed to connect into database', error)
     )
+  }
+
+  protected useMiddlewares() {
+    this.api.use(express.json())
   }
 
 
