@@ -17,7 +17,7 @@ const normalDataSource = new DataSource({
 
 const testDataSource = new DataSource({
   type: 'sqlite',
-  database: 'testDB.sqlite',
+  database: ':memory:',
   synchronize: true,
   entities: [`${__dirname}/entities/**/*{.ts,.js}`],
   migrations: [`${__dirname}/../../migrtions/**/*{.ts,.js}`]

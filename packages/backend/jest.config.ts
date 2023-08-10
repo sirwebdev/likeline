@@ -6,7 +6,7 @@ import { compilerOptions } from './tsconfig.json';
 const config: Config = {
   preset: "ts-jest",
   testEnvironment: "node",
-  // bail: true,
+  bail: true,
   clearMocks: true,
   transform: {
     "^.+\\.(t|j)s$": "ts-jest",
@@ -15,7 +15,7 @@ const config: Config = {
   roots: [
     "<rootDir>"
   ],
-  globalTeardown: "./__test__/teardown.ts",
+  // globalTeardown: "./__test__/teardown.ts",
   setupFilesAfterEnv: ["<rootDir>/__test__/setup.ts"],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: '<rootDir>/',
