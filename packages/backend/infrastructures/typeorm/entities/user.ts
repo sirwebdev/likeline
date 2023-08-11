@@ -3,7 +3,7 @@ import { Column, Entity, ObjectId } from "typeorm";
 import { User } from "@domains/entities/user";
 import { IdColumn } from "../decorators/id-column";
 
-type IdType = typeof process.env.NODE_ENV extends 'test' ? string : ObjectId;
+export type IdType = typeof process.env.NODE_ENV extends 'test' ? string : ObjectId;
 
 @Entity()
 export class UserEntity implements User {

@@ -1,5 +1,5 @@
 import { injectable } from "tsyringe";
-import { MongoRepository, Repository } from "typeorm";
+import { MongoRepository, ObjectId, Repository } from "typeorm";
 
 import { dataSource, isTestEnvironment } from "../datasource";
 import { UserEntity } from "../entities/user";
@@ -32,6 +32,14 @@ export class TypeormUserRepository implements UserRepository {
     })
 
     return foundUserByEmail ?? undefined
+  }
+
+  async findById(id: ObjectId): Promise<User | undefined> {
+    const foundUserById = await this.repository.findOneBy({
+      id
+    })
+
+    return foundUserById ?? undefined
   }
 
   async findByUsername(username: string): Promise<User | undefined> {
