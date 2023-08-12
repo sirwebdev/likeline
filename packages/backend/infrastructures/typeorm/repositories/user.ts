@@ -34,9 +34,9 @@ export class TypeormUserRepository implements UserRepository {
     return foundUserByEmail ?? undefined
   }
 
-  async findById(id: ObjectId): Promise<User | undefined> {
+  async findById(objectId: ObjectId): Promise<User | undefined> {
     const foundUserById = await this.repository.findOneBy({
-      id
+      id: objectId.id as unknown as ObjectId
     })
 
     return foundUserById ?? undefined
@@ -48,5 +48,9 @@ export class TypeormUserRepository implements UserRepository {
     })
 
     return foundUserByUsername ?? undefined
+  }
+
+  async deleteById(objectId: ObjectId): Promise<void> {
+    await this.repository.delete(objectId)
   }
 }
