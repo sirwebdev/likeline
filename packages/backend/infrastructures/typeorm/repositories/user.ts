@@ -2,7 +2,7 @@ import { injectable } from "tsyringe";
 import { MongoRepository, ObjectId, Repository } from "typeorm";
 
 import { dataSource, isTestEnvironment } from "../datasource";
-import { UserEntity } from "../entities/user";
+import { IdType, UserEntity } from "../entities/user";
 
 import { User } from "@domains/entities/user";
 import { UserRepository } from "@infrastructures/repositories/user";
@@ -34,9 +34,9 @@ export class TypeormUserRepository implements UserRepository {
     return foundUserByEmail ?? undefined
   }
 
-  async findById(objectId: ObjectId): Promise<User | undefined> {
+  async findById(objectId: IdType): Promise<User | undefined> {
     const foundUserById = await this.repository.findOneBy({
-      id: objectId.id as unknown as ObjectId
+      id: (objectId as ObjectId).id as unknown as ObjectId
     })
 
     return foundUserById ?? undefined
@@ -50,7 +50,7 @@ export class TypeormUserRepository implements UserRepository {
     return foundUserByUsername ?? undefined
   }
 
-  async deleteById(objectId: ObjectId): Promise<void> {
+  async deleteById(objectId: IdType): Promise<void> {
     await this.repository.delete(objectId)
   }
 }

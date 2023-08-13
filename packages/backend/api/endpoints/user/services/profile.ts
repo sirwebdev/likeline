@@ -1,12 +1,14 @@
 import { inject, injectable } from "tsyringe";
+
+import { Service } from "../dtos/service";
+import { ProfileDTO } from "../dtos/profile";
 import { IdType } from "@infrastructures/typeorm/entities/user";
 import { UserRepository } from "@infrastructures/repositories/user";
 import { USER_REPOSITORY_CONTAINER } from "@api/constants/containers";
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error";
-import { ProfileDTO } from "../dtos/profile";
 
 @injectable()
-export class ProfileService {
+export class ProfileService implements Service<IdType, ProfileDTO> {
   constructor(
     @inject(USER_REPOSITORY_CONTAINER)
     private readonly userRepository: UserRepository

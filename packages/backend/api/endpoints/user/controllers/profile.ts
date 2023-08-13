@@ -3,7 +3,6 @@ import { inject, injectable } from "tsyringe";
 
 import { Service } from "../dtos/service";
 import { ProfileDTO } from "../dtos/profile";
-import { IdType } from "@infrastructures/typeorm/entities/user";
 import { PROFILE_SERVICE_CONTAINER } from "@api/constants/containers";
 import { ResolveController } from "@infrastructures/decorators/resolve-controller";
 
@@ -11,12 +10,14 @@ import { ResolveController } from "@infrastructures/decorators/resolve-controlle
 export class ProfileController {
   constructor(
     @inject(PROFILE_SERVICE_CONTAINER)
-    private readonly service: Service<IdType, ProfileDTO>
+    private readonly service: Service<string, ProfileDTO>
   ) { }
 
   @ResolveController(ProfileController)
-  async execute(_req: Request, res: Response) {
-    const user = await this.service.execute('user' as unknown as IdType)
+  async execute(req: Request, res: Response) {
+    const { id } = req.user
+
+    const user = await this.service.execute(id)
 
     return res.json(user)
   }
