@@ -2,7 +2,7 @@ import { SuperTest, Test } from "supertest"
 import { getApiForTest } from "../../../../utils/get-api-for-test"
 import { createUniqueUserPayload } from "../../../../utils/create-unique-user-payload"
 
-import { GLOBAL_PREFIX } from "@api/server"
+import { GLOBAL_PREFIX } from "@infrastructures/constants/server"
 import { CreateUserDTO } from "@api/endpoints/user/dtos/create-user"
 
 let api: SuperTest<Test>

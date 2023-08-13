@@ -3,7 +3,7 @@ import { inject, injectable } from "tsyringe";
 
 import { Service } from "../dtos/service";
 import { ProfileDTO } from "../dtos/profile";
-import { PROFILE_SERVICE_CONTAINER } from "@api/constants/containers";
+import { PROFILE_SERVICE_CONTAINER } from "@infrastructures/constants/containers";
 import { ResolveController } from "@infrastructures/decorators/resolve-controller";
 
 @injectable()

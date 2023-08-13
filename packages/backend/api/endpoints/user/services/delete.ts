@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
 import { Service } from "../dtos/service";
-import { USER_REPOSITORY_CONTAINER } from "@api/constants/containers";
+import { USER_REPOSITORY_CONTAINER } from "@infrastructures/constants/containers";
 import { UserRepository } from "@infrastructures/repositories/user";
 import { IdType } from "@infrastructures/typeorm/entities/user";
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error";
@@ -20,4 +20,5 @@ export class DeleteUserService implements Service<IdType, void> {
 
     await this.userRepository.deleteById(foundUser.id)
   }
+
 }

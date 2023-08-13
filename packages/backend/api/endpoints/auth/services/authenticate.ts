@@ -5,7 +5,7 @@ import { AuthenticationDTO } from "../dtos/authentication";
 import { TokenService } from "@domains/interfaces/token-service";
 import { UserRepository } from "@infrastructures/repositories/user";
 import { EncryptionService } from "@domains/interfaces/encription-service";
-import { ENCRYPTION_SERVICE_CONTAINER, TOKEN_SERVICE_CONTAINER, USER_REPOSITORY_CONTAINER } from "@api/constants/containers";
+import { ENCRYPTION_SERVICE_CONTAINER, TOKEN_SERVICE_CONTAINER, USER_REPOSITORY_CONTAINER } from "@infrastructures/constants/containers";
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error";
 
 @injectable()
@@ -26,7 +26,7 @@ export class AuthenticateService implements Service<AuthenticationDTO, string> {
     const isCorrectPassword = await this.encryptionService.comparePasswords(password, foundUser.password)
     if (!isCorrectPassword) throw new ApiRequestError('Invalid email or password.', 401)
 
-    const token = this.tokenService.createToken({ id: foundUser.id }, '1d')
+    const token = this.tokenService.createToken({ id: foundUser.id}, '1d')
 
     return token
   }

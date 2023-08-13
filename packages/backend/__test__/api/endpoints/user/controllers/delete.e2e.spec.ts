@@ -1,9 +1,8 @@
 import { SuperTest, Test } from "supertest"
 
-import { GLOBAL_PREFIX } from "@api/server"
-import { createAndAuthenticateUser } from "../../../../utils/authenticate-user"
+import { GLOBAL_PREFIX } from "@infrastructures/constants/server"
 import { getApiForTest } from "../../../../utils/get-api-for-test"
-
+import { createAndAuthenticateUser } from "../../../../utils/authenticate-user"
 
 let token: string
 let api: SuperTest<Test>

@@ -8,9 +8,9 @@ import '@infrastructures/containers'
 
 import { apiRoutes } from "./routes"
 import { dataSource } from "@infrastructures/typeorm/datasource"
+import { GLOBAL_PREFIX, STATIC_IMAGES_PATH, UPLOADS_FOLDER } from "@infrastructures/constants/server"
 import { CentralizedErrorHandler } from "@infrastructures/error-handling/centralized-error-handler"
 
-export const GLOBAL_PREFIX = '/api'
 
 export class Server {
   protected api: Express = express()
@@ -34,6 +34,7 @@ export class Server {
 
   protected useMiddlewares() {
     this.api.use(express.json())
+    this.api.use(STATIC_IMAGES_PATH, express.static(UPLOADS_FOLDER))
   }
 
 

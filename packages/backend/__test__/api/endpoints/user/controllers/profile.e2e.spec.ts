@@ -1,10 +1,10 @@
 import { SuperTest, Test } from "supertest"
 import { getApiForTest } from "../../../../utils/get-api-for-test"
 
-import { GLOBAL_PREFIX } from "@api/server"
 import { User } from "@domains/entities/user"
-import { TypeormUserRepository } from "@infrastructures/typeorm/repositories/user"
+import { GLOBAL_PREFIX } from "@infrastructures/constants/server"
 import { createAndAuthenticateUser } from "../../../../utils/authenticate-user"
+import { TypeormUserRepository } from "@infrastructures/typeorm/repositories/user"
 
 let api: SuperTest<Test>
 let user: User

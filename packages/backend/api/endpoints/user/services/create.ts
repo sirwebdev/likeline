@@ -5,7 +5,7 @@ import { CreateUserDTO } from "../dtos/create-user"
 
 import { User } from "@domains/entities/user"
 import { UserRepository } from "@infrastructures/repositories/user"
-import { ENCRYPTION_SERVICE_CONTAINER, USER_REPOSITORY_CONTAINER } from "@api/constants/containers"
+import { ENCRYPTION_SERVICE_CONTAINER, USER_REPOSITORY_CONTAINER } from "@infrastructures/constants/containers"
 import { EncryptionService } from "@domains/interfaces/encription-service"
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error"
 

@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 import { inject, injectable } from "tsyringe";
 
 import { Service } from "../dtos/service";
-import { DELETE_USER_SERVICE_CONTAINER } from "@api/constants/containers";
+import { DELETE_USER_SERVICE_CONTAINER } from "@infrastructures/constants/containers";
 import { ResolveController } from "@infrastructures/decorators/resolve-controller";
 
 @injectable()

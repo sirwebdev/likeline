@@ -1,4 +1,4 @@
-import { TOKEN_SERVICE_CONTAINER } from '@api/constants/containers';
+import { TOKEN_SERVICE_CONTAINER } from '@infrastructures/constants/containers';
 import { TokenService } from '@domains/interfaces/token-service';
 import { ApiRequestError } from '@infrastructures/error-handling/api-request-error';
 import { Request, Response, NextFunction } from 'express';

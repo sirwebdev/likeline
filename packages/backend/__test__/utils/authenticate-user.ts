@@ -1,6 +1,7 @@
 import { SuperTest, Test } from "supertest";
+
+import { GLOBAL_PREFIX } from "@infrastructures/constants/server";
 import { createUniqueUserPayload } from "./create-unique-user-payload";
-import { GLOBAL_PREFIX } from "@api/server";
 
 export const createAndAuthenticateUser = async (api: SuperTest<Test>) => {
   const USER_PAYLOAD = createUniqueUserPayload()
