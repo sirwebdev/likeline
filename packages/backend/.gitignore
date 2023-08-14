@@ -1,4 +1,4 @@
 ./dist
 .env
-./temp
-./uploads
+temp
+uploads
