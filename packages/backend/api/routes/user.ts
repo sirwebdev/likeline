@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { container } from "tsyringe";
 
+import { uploadFile } from "@infrastructures/middlewares/upload-file";
 import { CreateUserController } from "../endpoints/user/controllers/create";
 import { ProfileController } from "@api/endpoints/user/controllers/profile";
-import { authenticateRequest } from "@infrastructures/middlewares/authenticate-request";
 import { DeleteUserController } from "@api/endpoints/user/controllers/delete";
+import { authenticateRequest } from "@infrastructures/middlewares/authenticate-request";
 import { UpdateProfilePhotoController } from "@api/endpoints/user/controllers/update-profile-photo";
-import { uploadFile } from "@infrastructures/middlewares/upload-file";
 
 export const userRouter = Router();
 
