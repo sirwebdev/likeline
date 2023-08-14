@@ -1,4 +1,4 @@
 export class FileService {
-  saveFile: (filename: string, tempFile: string) => Promise<string>
+  saveFile: (tempFileName: string, filename: string) => Promise<string>
   deleteFile: (oldFilename: string,) => Promise<void>
 }

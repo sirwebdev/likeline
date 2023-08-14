@@ -7,5 +7,6 @@ export class UserRepository {
   findById: (id: IdType) => Promise<User | undefined>
   findByEmail: (email: string) => Promise<User | undefined>
   findByUsername: (username: string) => Promise<User | undefined>
+  update: (userid: IdType, payload: Partial<User>) => Promise<User>
   create: (payload: Omit<CreateUserDTO, 'confirmPassword'>) => Promise<User>
 }

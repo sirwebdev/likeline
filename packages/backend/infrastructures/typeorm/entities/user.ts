@@ -25,5 +25,5 @@ export class UserEntity implements User {
   @Column({
     nullable: true
   })
-  photo_url?: string;
+  photo_filename?: string;
 }

@@ -53,4 +53,12 @@ export class TypeormUserRepository implements UserRepository {
   async deleteById(objectId: IdType): Promise<void> {
     await this.repository.delete(objectId)
   }
+
+  async update(userID: IdType, payload: Partial<User>): Promise<User> {
+    await this.repository.update(userID, payload)
+
+    const updatedUser = await this.findById(userID)
+
+    return updatedUser!
+  }
 }
