@@ -1,11 +1,11 @@
-import { UpdateProfilePhotoService } from "@api/endpoints/user/services/update-profile-photo"
-import { MockClass, createMockFromClass } from "../../../../utils/create-mock-from-class"
-import { UserRepository } from "@infrastructures/repositories/user"
-import { TypeormUserRepository } from "@infrastructures/typeorm/repositories/user"
+import { createUser } from "../../../../utils/create-user"
 import { FileService } from "@domains/interfaces/file-service"
 import { FSFileService } from "@domains/services/file/fs-service"
-import { createUser } from "../../../../utils/create-user"
+import { UserRepository } from "@infrastructures/repositories/user"
+import { TypeormUserRepository } from "@infrastructures/typeorm/repositories/user"
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error"
+import { MockClass, createMockFromClass } from "../../../../utils/create-mock-from-class"
+import { UpdateProfilePhotoService } from "@api/endpoints/user/services/update-profile-photo"
 
 let service: UpdateProfilePhotoService
 let fileService: MockClass<FileService>
