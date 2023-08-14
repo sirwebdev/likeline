@@ -1,16 +1,17 @@
+import path from "path"
 import { SuperTest, Test } from "supertest"
-import { getApiForTest } from "../../../../utils/get-api-for-test"
+
 
 import { User } from "@domains/entities/user"
 import { GLOBAL_PREFIX } from "@infrastructures/constants/server"
+import { FSFileService } from "@domains/services/file/fs-service"
+import { getApiForTest } from "../../../../utils/get-api-for-test"
 import { createAndAuthenticateUser } from "../../../../utils/authenticate-user"
 import { TypeormUserRepository } from "@infrastructures/typeorm/repositories/user"
-import path from "path"
-import { FSFileService } from "@domains/services/file/fs-service"
 
-let api: SuperTest<Test>
 let user: User
 let token: string
+let api: SuperTest<Test>
 let temp_filename: string | undefined
 
 const BASE_URL = `${GLOBAL_PREFIX}/users`

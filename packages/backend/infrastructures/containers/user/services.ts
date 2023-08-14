@@ -16,4 +16,4 @@ import { UpdateProfilePhotoService } from '@api/endpoints/user/services/update-p
 container.registerSingleton<Service<IdType, ProfileDTO>>(PROFILE_SERVICE_CONTAINER, ProfileService)
 container.registerSingleton<Service<string, void>>(DELETE_USER_SERVICE_CONTAINER, DeleteUserService)
 container.registerSingleton<Service<CreateUserDTO, User>>(CREATE_USER_SERVICE_CONTAINER, CreateUserService)
-container.registerSingleton<Service<UpdateProfilePhotoDTO, User>>(UPDATE_PROFILE_PHOTO_SERVICE_CONTAINER, UpdateProfilePhotoService)
+container.registerSingleton<Service<UpdateProfilePhotoDTO, ProfileDTO>>(UPDATE_PROFILE_PHOTO_SERVICE_CONTAINER, UpdateProfilePhotoService)

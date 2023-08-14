@@ -1,15 +1,15 @@
 import { inject, injectable } from "tsyringe";
 
 import { Service } from "../dtos/service";
-import { User } from "@domains/entities/user";
 import { FileService } from "@domains/interfaces/file-service";
 import { UserRepository } from "@infrastructures/repositories/user";
 import { UpdateProfilePhotoDTO } from "../dtos/update-profile-photo";
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error";
 import { FILE_SERVICE_CONTAINER, USER_REPOSITORY_CONTAINER } from "@infrastructures/constants/containers";
+import { ProfileDTO } from "../dtos/profile";
 
 @injectable()
-export class UpdateProfilePhotoService implements Service<UpdateProfilePhotoDTO, User>{
+export class UpdateProfilePhotoService implements Service<UpdateProfilePhotoDTO, ProfileDTO>{
   constructor(
     @inject(USER_REPOSITORY_CONTAINER)
     private readonly userRepository: UserRepository,
@@ -25,7 +25,7 @@ export class UpdateProfilePhotoService implements Service<UpdateProfilePhotoDTO,
     return fileExtension
   }
 
-  async execute({ userID, tempFilename }: UpdateProfilePhotoDTO): Promise<User> {
+  async execute({ userID, tempFilename }: UpdateProfilePhotoDTO): Promise<ProfileDTO> {
     const foundUser = await this.userRepository.findById(userID)
 
     if (!foundUser) throw new ApiRequestError('User not exists', 404)
@@ -38,8 +38,10 @@ export class UpdateProfilePhotoService implements Service<UpdateProfilePhotoDTO,
 
     await this.fileService.saveFile(tempFilename, fileName)
 
-    const updateUser = await this.userRepository.update(foundUser.id, { photo_filename: fileName })
+    const updateUser = await this.userRepository.update(userID, { photo_filename: fileName })
 
-    return updateUser
+    const { password: _password, ...user } = updateUser
+
+    return user
   }
 }

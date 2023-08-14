@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 import { inject, injectable } from "tsyringe";
 
 import { Service } from "../dtos/service";
-import { User } from "@domains/entities/user";
+import { ProfileDTO } from "../dtos/profile";
 import { UpdateProfilePhotoDTO } from "../dtos/update-profile-photo";
 import { ResolveController } from "@infrastructures/decorators/resolve-controller";
 import { UPDATE_PROFILE_PHOTO_SERVICE_CONTAINER } from "@infrastructures/constants/containers";
@@ -11,7 +11,7 @@ import { UPDATE_PROFILE_PHOTO_SERVICE_CONTAINER } from "@infrastructures/constan
 export class UpdateProfilePhotoController {
   constructor(
     @inject(UPDATE_PROFILE_PHOTO_SERVICE_CONTAINER)
-    private readonly service: Service<UpdateProfilePhotoDTO, User>
+    private readonly service: Service<UpdateProfilePhotoDTO, ProfileDTO>
   ) { }
 
   @ResolveController(UpdateProfilePhotoController)

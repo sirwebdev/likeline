@@ -26,6 +26,7 @@ describe("SERVICE - UpdateProfilePhoto", () => {
 
     beforeEach(() => {
       repository.findById.mockReturnValue(USER)
+      repository.update.mockReturnValue(USER)
     })
 
     it("Must save file when user when user exists", async () => {
