@@ -4,19 +4,26 @@ import { DeleteUserService } from "@api/endpoints/user/services/delete"
 import { MockClass, createMockFromClass } from "../../../../utils/create-mock-from-class"
 import { TypeormUserRepository } from "@infrastructures/typeorm/repositories/user"
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error"
+import { FileService } from "@domains/interfaces/file-service"
+import { FSFileService } from "@domains/services/file/fs-service"
 
 let service: DeleteUserService
+let fileService: MockClass<FileService>
 let repository: MockClass<UserRepository>
 
 describe("SERVICE - DeleteUser", () => {
   const USER = createUser()
 
   beforeEach(() => {
+    fileService = createMockFromClass(FSFileService as any)
     repository = createMockFromClass(TypeormUserRepository as any)
-    service = new DeleteUserService(repository)
+
+    service = new DeleteUserService(repository, fileService)
   })
 
   describe("Successful cases", () => {
+    const FILENAME = 'filename.txt'
+
     beforeEach(() => {
       repository.findById.mockReturnValue(USER)
     })
@@ -25,6 +32,14 @@ describe("SERVICE - DeleteUser", () => {
       await service.execute(USER.id)
 
       expect(repository.deleteById).toHaveBeenCalledWith(USER.id)
+    })
+
+    it("Must delete the existent user profile photo", async () => {
+      repository.findById.mockReturnValueOnce({ ...USER, photo_filename: FILENAME })
+
+      await service.execute(USER.id)
+
+      expect(fileService.deleteFile).toHaveBeenCalledWith(FILENAME)
     })
   })
 
