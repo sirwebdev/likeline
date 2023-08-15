@@ -2,12 +2,11 @@
   "name": "@likeline/backend",
   "version": "1.0.0",
   "scripts": {
-    "start": "tsnd -r tsconfig-paths/register --transpile-only --ignore-watch node_modules api/main.ts",
     "test": "jest",
-    "test:watch": "jest --watch --coverage"
+    "test:watch": "jest --watch --coverage",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "start": "tsnd -r tsconfig-paths/register --transpile-only --ignore-watch node_modules api/main.ts"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -17,6 +16,7 @@
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.0",
     "multer": "^1.4.5-lts.1",
+    "pg": "^8.11.2",
     "reflect-metadata": "^0.1.1",
     "sqlite3": "^5.1.6",
     "supertest": "^6.3.3",

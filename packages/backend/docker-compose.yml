@@ -1,10 +1,20 @@
 version: "3.9"
 services:
-  database:
+  mongo_database:
     image: mongo
     ports:
-      - ${DB_PORT}:27017
+      - ${MONGO_DB_PORT}:27017
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=${DB_USERNAME}
-      - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_DB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_DB_PASSWORD}
 
+  postgres_databaase:
+    image: postgres
+    environment:
+      - POSTGRES_DB=${PG_DB_NAME}
+      - POSTGRES_USER=${PG_DB_USERNAME}
+      - POSTGRES_PASSWORD=${PG_DB_PASSWORD}
+    expose:
+      - ${PG_DB_PORT}
+    ports:
+      - ${PG_DB_PORT}:5432

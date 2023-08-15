@@ -1,8 +1,8 @@
 import { injectable } from "tsyringe";
-import { MongoRepository, ObjectId, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
-import { dataSource, isTestEnvironment } from "../datasource";
-import { IdType, UserEntity } from "../entities/user";
+import { dataSource } from "../datasource";
+import { UserEntity } from "../entities/user";
 
 import { User } from "@domains/entities/user";
 import { UserRepository } from "@infrastructures/repositories/user";
@@ -10,12 +10,10 @@ import { CreateUserDTO } from "@api/endpoints/user/dtos/create-user";
 
 @injectable()
 export class TypeormUserRepository implements UserRepository {
-  private repository: MongoRepository<UserEntity> | Repository<UserEntity>
+  private repository: Repository<UserEntity>
 
   constructor() {
-    const methodBasedOnEnvironment = isTestEnvironment ? 'getRepository' : 'getMongoRepository'
-
-    this.repository = dataSource[methodBasedOnEnvironment](UserEntity)
+    this.repository = dataSource.getRepository(UserEntity)
   }
 
   async create(payload: Omit<CreateUserDTO, 'confirmPassword'>): Promise<User> {
@@ -34,9 +32,9 @@ export class TypeormUserRepository implements UserRepository {
     return foundUserByEmail ?? undefined
   }
 
-  async findById(objectId: IdType): Promise<User | undefined> {
+  async findById(id: string): Promise<User | undefined> {
     const foundUserById = await this.repository.findOneBy({
-      id: (objectId as ObjectId).id as unknown as ObjectId
+      id
     })
 
     return foundUserById ?? undefined
@@ -50,11 +48,11 @@ export class TypeormUserRepository implements UserRepository {
     return foundUserByUsername ?? undefined
   }
 
-  async deleteById(objectId: IdType): Promise<void> {
+  async deleteById(objectId: string): Promise<void> {
     await this.repository.delete(objectId)
   }
 
-  async update(userID: IdType, payload: Partial<User>): Promise<User> {
+  async update(userID: string, payload: Partial<User>): Promise<User> {
     await this.repository.update(userID, payload)
 
     const updatedUser = await this.findById(userID)

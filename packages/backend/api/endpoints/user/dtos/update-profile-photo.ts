@@ -1,6 +1,4 @@
-import { IdType } from "@infrastructures/typeorm/entities/user";
-
 export class UpdateProfilePhotoDTO {
-  userID: IdType;
+  userID: string;
   tempFilename: string
 }

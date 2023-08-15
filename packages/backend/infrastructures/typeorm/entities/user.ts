@@ -1,14 +1,11 @@
-import { Column, Entity, ObjectId } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 import { User } from "@domains/entities/user";
-import { IdColumn } from "../decorators/id-column";
-
-export type IdType = string | ObjectId;
 
 @Entity()
 export class UserEntity implements User {
-  @IdColumn()
-  id: IdType
+  @PrimaryGeneratedColumn('uuid')
+  id: string
 
   @Column()
   name: string;

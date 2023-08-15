@@ -2,19 +2,18 @@ import { inject, injectable } from "tsyringe";
 
 import { Service } from "../dtos/service";
 import { ProfileDTO } from "../dtos/profile";
-import { IdType } from "@infrastructures/typeorm/entities/user";
 import { UserRepository } from "@infrastructures/repositories/user";
 import { USER_REPOSITORY_CONTAINER } from "@infrastructures/constants/containers";
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error";
 
 @injectable()
-export class ProfileService implements Service<IdType, ProfileDTO> {
+export class ProfileService implements Service<string, ProfileDTO> {
   constructor(
     @inject(USER_REPOSITORY_CONTAINER)
     private readonly userRepository: UserRepository
   ) { }
 
-  async execute(userID: IdType): Promise<ProfileDTO> {
+  async execute(userID: string): Promise<ProfileDTO> {
     const foundUser = await this.userRepository.findById(userID)
 
 
