@@ -1,8 +1,8 @@
 import { SuperTest, Test } from "supertest"
-import { getApiForTest } from "../../../../utils/get-api-for-test"
 
 import { User } from "@domains/entities/user"
 import { GLOBAL_PREFIX } from "@infrastructures/constants/server"
+import { getApiForTest } from "../../../../utils/get-api-for-test"
 import { createAndAuthenticateUser } from "../../../../utils/authenticate-user"
 import { TypeormUserRepository } from "@infrastructures/typeorm/repositories/user"
 
