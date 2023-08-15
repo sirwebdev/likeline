@@ -1,7 +1,6 @@
 import "dotenv/config"
 import { Server } from "./server"
-
-const PORT = Number(process.env.PORT) || 3333;
+import { PORT } from "@infrastructures/constants/server"
 
 const server = new Server()
 

@@ -7,6 +7,7 @@ import { ProfileController } from "@api/endpoints/user/controllers/profile";
 import { DeleteUserController } from "@api/endpoints/user/controllers/delete";
 import { authenticateRequest } from "@infrastructures/middlewares/authenticate-request";
 import { UpdateProfilePhotoController } from "@api/endpoints/user/controllers/update-profile-photo";
+import { transformPhotoResponse } from "@api/endpoints/user/middlewares/transform-photo-url";
 
 export const userRouter = Router();
 
@@ -18,6 +19,7 @@ const updateProfilePhotoController = container.resolve(UpdateProfilePhotoControl
 userRouter.post('', createUserController.execute)
 
 userRouter.use(authenticateRequest)
+userRouter.put('/profile-photo', uploadFile.single('photo'), updateProfilePhotoController.execute, transformPhotoResponse)
+
 userRouter.delete('', deleteUserController.execute)
-userRouter.get('/profile', profileController.execute)
-userRouter.put('/profile-photo', uploadFile.single('photo'), updateProfilePhotoController.execute)
+userRouter.get('/profile', profileController.execute, transformPhotoResponse)

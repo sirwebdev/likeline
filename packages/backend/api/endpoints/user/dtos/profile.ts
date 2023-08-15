@@ -3,5 +3,5 @@ export class ProfileDTO {
   name: string;
   email: string;
   username: string;
-  photo_url?: string;
+  photo_filename?: string;
 }

@@ -1,12 +1,12 @@
 import { inject, injectable } from "tsyringe";
 
 import { Service } from "../dtos/service";
+import { ProfileDTO } from "../dtos/profile";
 import { FileService } from "@domains/interfaces/file-service";
 import { UserRepository } from "@infrastructures/repositories/user";
 import { UpdateProfilePhotoDTO } from "../dtos/update-profile-photo";
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error";
 import { FILE_SERVICE_CONTAINER, USER_REPOSITORY_CONTAINER } from "@infrastructures/constants/containers";
-import { ProfileDTO } from "../dtos/profile";
 
 @injectable()
 export class UpdateProfilePhotoService implements Service<UpdateProfilePhotoDTO, ProfileDTO>{

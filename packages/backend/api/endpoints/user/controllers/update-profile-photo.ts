@@ -1,4 +1,4 @@
-import { Request, Response } from "express"
+import { NextFunction, Request, Response } from "express"
 import { inject, injectable } from "tsyringe";
 
 import { Service } from "../dtos/service";
@@ -15,12 +15,14 @@ export class UpdateProfilePhotoController {
   ) { }
 
   @ResolveController(UpdateProfilePhotoController)
-  async execute(req: Request, res: Response) {
+  async execute(req: Request, res: Response, next: NextFunction) {
     const { id } = req.user
     const { originalname } = req.file!
 
     const updatedUser = await this.service.execute({ userID: id, tempFilename: originalname })
 
-    return res.json(updatedUser)
+    res.locals.user = updatedUser
+
+    next()
   }
 }

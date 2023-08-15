@@ -1,4 +1,4 @@
-import { Request, Response } from "express"
+import { NextFunction, Request, Response } from "express"
 import { inject, injectable } from "tsyringe";
 
 import { Service } from "../dtos/service";
@@ -14,11 +14,13 @@ export class ProfileController {
   ) { }
 
   @ResolveController(ProfileController)
-  async execute(req: Request, res: Response) {
+  async execute(req: Request, res: Response, next: NextFunction) {
     const { id } = req.user
 
     const user = await this.service.execute(id)
 
-    return res.json(user)
+    res.locals.user = user
+
+    next()
   }
 }

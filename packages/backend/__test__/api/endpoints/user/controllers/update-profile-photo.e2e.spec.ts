@@ -44,7 +44,7 @@ describe("CONTROLLER - UpdateProfilePhoto", () => {
 
       temp_filename = body.photo_filename
 
-      expect(body.photo_filename).toEqual(`${user.id}_profile.json`)
+      expect(body.photo_url).toEqual(expect.stringContaining(`api/images/${user.id}_profile.json`))
     })
   })
 

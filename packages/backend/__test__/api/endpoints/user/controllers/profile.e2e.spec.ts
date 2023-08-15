@@ -12,7 +12,7 @@ let token: string
 
 const BASE_URL = `${GLOBAL_PREFIX}/users`
 
-describe("CONTROLLER - CreateUser", () => {
+describe("CONTROLLER - Profile", () => {
   beforeAll(async () => {
     api = await getApiForTest()
 
@@ -27,7 +27,9 @@ describe("CONTROLLER - CreateUser", () => {
         Authorization: `Bearer ${token}`
       })
 
-      expect(body).toEqual(user)
+      const { photo_filename: _, ...profile } = user
+
+      expect(body).toEqual(expect.objectContaining(profile))
     })
   })
 
