@@ -1,8 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
+import { PostEntity } from "./post";
 import { User } from "@domains/entities/user";
+import { Post } from "@domains/entities/post";
 
-@Entity()
+@Entity({ name: 'user' })
 export class UserEntity implements User {
   @PrimaryGeneratedColumn('uuid')
   id: string
@@ -23,4 +25,13 @@ export class UserEntity implements User {
     nullable: true
   })
   photo_filename?: string;
+
+  @OneToMany(() => PostEntity, post => post.owner)
+  posts: Post[]
+
+  @CreateDateColumn()
+  created_at: Date
+
+  @UpdateDateColumn()
+  updated_at: Date
 }

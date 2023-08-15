@@ -15,6 +15,7 @@ const config: Config = {
   roots: [
     "<rootDir>"
   ],
+  globalTeardown: "./__test__/teardown.ts",
   setupFilesAfterEnv: ["<rootDir>/__test__/setup.ts"],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: '<rootDir>/',

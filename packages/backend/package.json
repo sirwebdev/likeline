@@ -4,7 +4,7 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch --coverage",
-    "typeorm": "typeorm-ts-node-commonjs",
+    "typeorm": "tsnd -r tsconfig-paths/register ../../node_modules/typeorm/cli.js",
     "start": "tsnd -r tsconfig-paths/register --transpile-only --ignore-watch node_modules api/main.ts"
   },
   "license": "ISC",
