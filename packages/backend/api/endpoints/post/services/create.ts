@@ -2,12 +2,12 @@ import { inject, injectable } from "tsyringe";
 
 import { Service } from "@api/dtos/service";
 import { Post } from "@domains/entities/post";
-import { FileService } from "@domains/interfaces/file-service";
-import { CreatePostDTO } from "@api/endpoints/post/dtos/create";
-import { UserRepository } from "@infrastructures/repositories/user";
 import { PostRepository } from "@infrastructures/repositories/post";
-import { ApiRequestError } from "@infrastructures/error-handling/api-request-error";
 import { FILE_SERVICE_CONTAINER, POST_REPOSITORY_CONTAINER, USER_REPOSITORY_CONTAINER } from "@infrastructures/constants/containers";
+import { ApiRequestError } from "@infrastructures/error-handling/api-request-error";
+import { FileService } from "@domains/interfaces/file-service";
+import { UserRepository } from "@infrastructures/repositories/user";
+import { CreatePostDTO } from "@api/endpoints/post/dtos/create";
 
 @injectable()
 export class CreatePostService implements Service<CreatePostDTO, Post> {
@@ -29,6 +29,9 @@ export class CreatePostService implements Service<CreatePostDTO, Post> {
   }
 
   async execute({ title, image, owner }: CreatePostDTO): Promise<Post> {
+    if (!image) throw new ApiRequestError('Image is required', 400)
+    if (!title) throw new ApiRequestError('Title is required', 400)
+
     const foundUser = await this.userRepository.findById(owner)
 
     if (!foundUser) throw new ApiRequestError('User not exists', 404)

@@ -11,11 +11,13 @@ let api: SuperTest<Test>;
 
 const BASE_URL = `${GLOBAL_PREFIX}/posts`;
 
-const imagePath = path.join(__dirname, '../temp/image.test');
-const imageFile = fs.createReadStream(imagePath)
+let imageFile: fs.ReadStream
 
 describe("CONTROLLER - createPost", () => {
   beforeAll(async () => {
+    const imagePath = path.join(__dirname, '../temp/image.test');
+    imageFile = fs.createReadStream(imagePath)
+
     api = await getApiForTest();
 
     const authenticatedUser = await createAndAuthenticateUser(api);
@@ -25,7 +27,6 @@ describe("CONTROLLER - createPost", () => {
 
   describe("Successful cases", () => {
     it("Must create a new post for a logged user", async () => {
-
       const payload = {
         title: "Some random Post",
         image: imageFile
