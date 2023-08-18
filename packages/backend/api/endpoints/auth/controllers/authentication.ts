@@ -1,10 +1,10 @@
 import { Request, Response } from "express"
 
-import { ResolveController } from "@infrastructures/decorators/resolve-controller";
 import { inject, injectable } from "tsyringe";
+import { Service } from "@api/dtos/service";
 import { AuthenticationDTO } from "../dtos/authentication";
+import { ResolveController } from "@infrastructures/decorators/resolve-controller";
 import { AUTHENTICATION_SERVICE_CONTAINER } from "@infrastructures/constants/containers";
-import { Service } from "@api/endpoints/user/dtos/service";
 
 @injectable()
 export class AuthController {

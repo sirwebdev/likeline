@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
 
-import { Service } from "../dtos/service";
+import { Service } from "@api/dtos/service";
 import { FileService } from "@domains/interfaces/file-service";
 import { UserRepository } from "@infrastructures/repositories/user";
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error";

@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { inject, injectable } from "tsyringe";
 
-import { Service } from "../dtos/service";
 import { CreateUserDTO } from "../dtos/create-user";
 
+import { Service } from "@api/dtos/service";
 import { User } from "@domains/entities/user";
 import { CREATE_USER_SERVICE_CONTAINER } from "@infrastructures/constants/containers";
 import { ResolveController } from "@infrastructures/decorators/resolve-controller";

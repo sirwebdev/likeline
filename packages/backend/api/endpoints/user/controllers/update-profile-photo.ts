@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express"
 import { inject, injectable } from "tsyringe";
 
-import { Service } from "../dtos/service";
+import { Service } from "@api/dtos/service";
 import { ProfileDTO } from "../dtos/profile";
 import { UpdateProfilePhotoDTO } from "../dtos/update-profile-photo";
 import { ResolveController } from "@infrastructures/decorators/resolve-controller";

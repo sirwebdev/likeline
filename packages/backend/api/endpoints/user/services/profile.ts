@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
 
-import { Service } from "../dtos/service";
+import { Service } from "@api/dtos/service";
 import { ProfileDTO } from "../dtos/profile";
 import { UserRepository } from "@infrastructures/repositories/user";
 import { USER_REPOSITORY_CONTAINER } from "@infrastructures/constants/containers";

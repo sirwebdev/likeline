@@ -8,6 +8,7 @@ export function CentralizedErrorHandler(err: Error, _req: Request, res: Response
   }
 
   if (!isTestEnvironment) console.error(err)
+  console.error(err)
 
   return res.status(500).json({ message: 'An unexpected error occurred', status: 500 });
 }

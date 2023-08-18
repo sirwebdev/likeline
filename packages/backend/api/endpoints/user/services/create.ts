@@ -1,13 +1,13 @@
 import { inject, injectable } from "tsyringe"
 
-import { Service } from "../dtos/service"
 import { CreateUserDTO } from "../dtos/create-user"
 
+import { Service } from "@api/dtos/service"
 import { User } from "@domains/entities/user"
 import { UserRepository } from "@infrastructures/repositories/user"
-import { ENCRYPTION_SERVICE_CONTAINER, USER_REPOSITORY_CONTAINER } from "@infrastructures/constants/containers"
 import { EncryptionService } from "@domains/interfaces/encription-service"
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error"
+import { ENCRYPTION_SERVICE_CONTAINER, USER_REPOSITORY_CONTAINER } from "@infrastructures/constants/containers"
 
 @injectable()
 export class CreateUserService implements Service<CreateUserDTO, User> {
