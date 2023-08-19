@@ -62,4 +62,27 @@ export class TypeormFollowRepository implements FollowRepository {
 
     return followers
   }
+
+  async updatePhotoFromAllFollowOfUserID(user_id: string, filename: string): Promise<void> {
+    const follows = await this.repository.find({
+      where: {
+        $or: [
+          { following_id: user_id },
+          { follower_id: user_id }
+        ]
+      }
+    });
+
+    await Promise.all(follows.map(async follow => {
+      if (follow.follower_id === user_id) {
+        follow.follower_photo = filename;
+      }
+
+      if (follow.following_id === user_id) {
+        follow.following_photo = filename;
+      }
+
+      return this.repository.save(follow);
+    }));
+  }
 }

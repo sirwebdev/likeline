@@ -32,6 +32,12 @@ describe("SERVICE - UpdateProfilePhoto", () => {
       userRepository.update.mockReturnValue(USER)
     })
 
+    it("Must update all follow photos when user update the profile photo", async () => {
+      await service.execute({ userID: USER.id, tempFilename: TEMP_FILE_NAME })
+
+      expect(followRepository.updatePhotoFromAllFollowOfUserID).toHaveBeenCalledWith(USER.id, `${USER.id}_profile.ext`)
+    })
+
     it("Must save file when user when user exists", async () => {
       await service.execute({ userID: USER.id, tempFilename: TEMP_FILE_NAME })
 

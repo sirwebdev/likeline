@@ -7,4 +7,5 @@ export class FollowRepository {
   getFollowers: (follower_id: User['id']) => Promise<Follow[]>
   getFollowees: (follower_id: User['id']) => Promise<Follow[]>
   checkIsFollowing: (follower_id: User['id'], followee: User['id']) => Promise<boolean>
+  updatePhotoFromAllFollowOfUserID: (user_id: User['id'], filename: string) => Promise<void>
 }

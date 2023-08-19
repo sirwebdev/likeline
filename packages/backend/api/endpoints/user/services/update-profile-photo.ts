@@ -45,6 +45,8 @@ export class UpdateProfilePhotoService implements Service<UpdateProfilePhotoDTO,
 
     const { password: _password, ...user } = updateUser
 
+    await this.followRepository.updatePhotoFromAllFollowOfUserID(updateUser.id, fileName)
+
     const followers = await this.followRepository.getFollowers(user.id)
     const followees = await this.followRepository.getFollowees(user.id)
 
