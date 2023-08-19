@@ -2,7 +2,7 @@ import { injectable } from "tsyringe";
 import { Repository } from "typeorm";
 
 import { dataSource } from "../datasource";
-import { PostEntity } from "../entities/post";
+import { PostEntity } from "../entities/postgres/post";
 
 import { Post } from "@domains/entities/post";
 import { CreatePostDTO } from "@infrastructures/dtos/create-post";
@@ -13,7 +13,7 @@ export class TypeormPostRepository implements PostRepository {
   private repository: Repository<PostEntity>
 
   constructor() {
-    this.repository = dataSource.getRepository(PostEntity)
+    this.repository = dataSource.postgres.getRepository(PostEntity)
   }
 
   async create(payload: CreatePostDTO): Promise<Post> {

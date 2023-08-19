@@ -15,8 +15,9 @@ const config: Config = {
   roots: [
     "<rootDir>"
   ],
+  globalSetup: './__test__/setup.ts',
   globalTeardown: "./__test__/teardown.ts",
-  setupFilesAfterEnv: ["<rootDir>/__test__/setup.ts"],
+  setupFilesAfterEnv: ["<rootDir>/__test__/setup-after-env.ts"],
   watchPathIgnorePatterns: ["<rootDir>/uploads", "<rootDir>/temp"],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: '<rootDir>/',

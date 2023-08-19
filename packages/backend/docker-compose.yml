@@ -1,15 +1,18 @@
 version: "3.9"
 services:
   mongo_database:
-    image: mongo
-    ports:
-      - ${MONGO_DB_PORT}:27017
+    image: mongo:latest
+    container_name: mongo-container
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_DB_USERNAME}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_DB_PASSWORD}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DB_NAME}
+    ports:
+      - "${MONGO_DB_PORT}:27017"
 
   postgres_databaase:
     image: postgres
+    container_name: postgres-container
     environment:
       - POSTGRES_DB=${PG_DB_NAME}
       - POSTGRES_USER=${PG_DB_USERNAME}

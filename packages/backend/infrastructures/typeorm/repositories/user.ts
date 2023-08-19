@@ -2,7 +2,7 @@ import { injectable } from "tsyringe";
 import { Repository } from "typeorm";
 
 import { dataSource } from "../datasource";
-import { UserEntity } from "../entities/user";
+import { UserEntity } from "../entities/postgres/user";
 
 import { User } from "@domains/entities/user";
 import { UserRepository } from "@infrastructures/repositories/user";
@@ -13,7 +13,7 @@ export class TypeormUserRepository implements UserRepository {
   private repository: Repository<UserEntity>
 
   constructor() {
-    this.repository = dataSource.getRepository(UserEntity)
+    this.repository = dataSource.postgres.getRepository(UserEntity)
   }
 
   async create(payload: Omit<CreateUserDTO, 'confirmPassword'>): Promise<User> {

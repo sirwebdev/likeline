@@ -7,7 +7,7 @@ import express, { Express } from 'express'
 import '@infrastructures/containers'
 
 import { apiRoutes } from "./routes"
-import { dataSource } from "@infrastructures/typeorm/datasource"
+import { dataSource, isTestEnvironment } from "@infrastructures/typeorm/datasource"
 import { GLOBAL_PREFIX, STATIC_IMAGES_PATH, UPLOADS_FOLDER } from "@infrastructures/constants/server"
 import { CentralizedErrorHandler } from "@infrastructures/error-handling/centralized-error-handler"
 
@@ -25,11 +25,14 @@ export class Server {
   }
 
   protected async connectIntoDB() {
-    await dataSource.initialize().then(() =>
-      console.log('Connected to database successfuly !')
-    ).catch((error) =>
-      console.error('Failed to connect into database', error)
-    )
+    try {
+      await dataSource.mongo.initialize()
+      await dataSource.postgres.initialize()
+
+      if (!isTestEnvironment) console.info('Connected into all DBs')
+    } catch (error) {
+      console.error('Failed to connect into DB: ', error)
+    }
   }
 
   protected useMiddlewares() {
