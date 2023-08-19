@@ -23,4 +23,20 @@ export class TypeormPostRepository implements PostRepository {
 
     return createdPost
   }
+
+  async updatePhotoFromAllPostFromUserID(userID: string, filename: string): Promise<void> {
+    const posts = await this.repository.find({
+      where: {
+        owner_id: userID
+      }
+    })
+
+    const postsToUpdate = posts.map(post => {
+      post.image = filename
+
+      return this.repository.save(post)
+    })
+
+    await Promise.all(postsToUpdate)
+  }
 }

@@ -6,8 +6,9 @@ import { FileService } from "@domains/interfaces/file-service";
 import { UserRepository } from "@infrastructures/repositories/user";
 import { UpdateProfilePhotoDTO } from "../dtos/update-profile-photo";
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error";
-import { FILE_SERVICE_CONTAINER, FOLLOW_REPOSITORY_CONTAINER, USER_REPOSITORY_CONTAINER } from "@infrastructures/constants/containers";
+import { FILE_SERVICE_CONTAINER, FOLLOW_REPOSITORY_CONTAINER, POST_REPOSITORY_CONTAINER, USER_REPOSITORY_CONTAINER } from "@infrastructures/constants/containers";
 import { FollowRepository } from "@infrastructures/repositories/follow";
+import { PostRepository } from "@infrastructures/repositories/post";
 
 @injectable()
 export class UpdateProfilePhotoService implements Service<UpdateProfilePhotoDTO, ProfileDTO>{
@@ -17,7 +18,9 @@ export class UpdateProfilePhotoService implements Service<UpdateProfilePhotoDTO,
     @inject(FILE_SERVICE_CONTAINER)
     private readonly fileService: FileService,
     @inject(FOLLOW_REPOSITORY_CONTAINER)
-    private readonly followRepository: FollowRepository
+    private readonly followRepository: FollowRepository,
+    @inject(POST_REPOSITORY_CONTAINER)
+    private readonly postRepository: PostRepository
   ) { }
 
   private extractFileExtension(filename: string) {
@@ -49,6 +52,8 @@ export class UpdateProfilePhotoService implements Service<UpdateProfilePhotoDTO,
 
     const followers = await this.followRepository.getFollowers(user.id)
     const followees = await this.followRepository.getFollowees(user.id)
+
+    this.postRepository.updatePhotoFromAllPostFromUserID(updateUser.id, fileName)
 
     return {
       ...user,

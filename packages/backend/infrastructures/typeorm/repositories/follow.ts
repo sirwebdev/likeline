@@ -73,7 +73,7 @@ export class TypeormFollowRepository implements FollowRepository {
       }
     });
 
-    await Promise.all(follows.map(async follow => {
+    const followsToUpdate = follows.map(async follow => {
       if (follow.follower_id === user_id) {
         follow.follower_photo = filename;
       }
@@ -83,6 +83,8 @@ export class TypeormFollowRepository implements FollowRepository {
       }
 
       return this.repository.save(follow);
-    }));
+    })
+
+    await Promise.all(followsToUpdate);
   }
 }
