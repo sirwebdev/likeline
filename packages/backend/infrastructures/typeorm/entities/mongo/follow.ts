@@ -2,7 +2,7 @@ import { Column, Entity, ObjectId, ObjectIdColumn } from "typeorm";
 import { Follow } from "@domains/entities/follow"
 
 @Entity('follow')
-export class TypeormFollowEntity implements Follow {
+export class FollowEntity implements Follow {
   @ObjectIdColumn()
   id: ObjectId
 
