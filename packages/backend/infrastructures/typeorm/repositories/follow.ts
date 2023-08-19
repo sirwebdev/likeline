@@ -16,8 +16,16 @@ export class TypeormFollowRepository implements FollowRepository {
     this.repository = dataSource.mongo.getMongoRepository(FollowEntity)
   }
 
-  async create({ followee_id, follower_id }: CreateFollowDTO): Promise<Follow> {
-    const createdFollow = this.repository.create({ follower_id: follower_id, following_id: followee_id, followed_date: new Date() });
+  async create({ followee_id, follower_id, followee_photo, follower_photo, followee_username, follower_username }: CreateFollowDTO): Promise<Follow> {
+    const createdFollow = this.repository.create({
+      follower_id: follower_id,
+      following_id: followee_id,
+      followed_date: new Date(),
+      follower_photo,
+      follower_username,
+      following_photo: followee_photo,
+      following_username: followee_username
+    });
 
     await this.repository.save(createdFollow)
 

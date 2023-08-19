@@ -3,7 +3,7 @@ import { Request, Response } from "express"
 
 import { Service } from "@api/dtos/service";
 import { Follow } from "@domains/entities/follow";
-import { CreateFollowDTO } from "@infrastructures/dtos/create-follow";
+import { CreateFollowDTO } from "@api/endpoints/follow/dtos/create-follow";
 import { ResolveController } from "@infrastructures/decorators/resolve-controller";
 import { CREATE_FOLLOW_SERVICE_CONTAINER } from "@infrastructures/constants/containers";
 

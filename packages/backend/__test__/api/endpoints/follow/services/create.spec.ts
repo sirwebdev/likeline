@@ -1,6 +1,6 @@
 import { UserRepository } from "@infrastructures/repositories/user";
 import { FollowRepository } from "@infrastructures/repositories/follow";
-import { CreateFollowDTO } from "@infrastructures/dtos/create-follow";
+import { CreateFollowDTO } from "@api/endpoints/follow/dtos/create-follow";
 import { MockClass, createMockFromClass } from "../../../../utils/create-mock-from-class";
 import { CreateFollowService } from "@api/endpoints/follow/services/create";
 import { TypeormUserRepository } from "@infrastructures/typeorm/repositories/user";
@@ -21,7 +21,7 @@ describe("SERVICE - CreateFollow", () => {
     userRepository = createMockFromClass(TypeormUserRepository as any);
     followRepository = createMockFromClass(TypeormFollowRepository as any);
     service = new CreateFollowService(followRepository, userRepository);
-    followPayload = { follower_id: '1', followee_id: '2' };
+    followPayload = { follower_id: follower.id, followee_id: followee.id };
   });
 
   describe("Successful cases", () => {
@@ -29,7 +29,7 @@ describe("SERVICE - CreateFollow", () => {
       userRepository.findById.mockResolvedValue(followee);
       followRepository.checkIsFollowing.mockResolvedValue(false);
       await service.execute(followPayload);
-      expect(followRepository.create).toHaveBeenCalledWith(followPayload);
+      expect(followRepository.create).toHaveBeenCalledWith(expect.objectContaining(followPayload));
     });
   });
 
