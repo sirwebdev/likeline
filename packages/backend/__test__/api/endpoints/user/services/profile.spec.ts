@@ -5,9 +5,12 @@ import { TypeormUserRepository } from "@infrastructures/typeorm/repositories/use
 import { createUniqueUserPayload } from "../../../../utils/create-unique-user-payload"
 import { MockClass, createMockFromClass } from "../../../../utils/create-mock-from-class"
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error"
+import { TypeormFollowRepository } from "@infrastructures/typeorm/repositories/follow"
+import { FollowRepository } from "@infrastructures/repositories/follow"
 
 let service: ProfileService
-let repository: MockClass<UserRepository>
+let userRepository: MockClass<UserRepository>
+let followRepository: MockClass<FollowRepository>
 
 describe("SERVICE - Profile", () => {
   const user: User = {
@@ -16,11 +19,12 @@ describe("SERVICE - Profile", () => {
   }
 
   beforeEach(async () => {
-    repository = createMockFromClass(TypeormUserRepository as any)
+    userRepository = createMockFromClass(TypeormUserRepository as any)
+    followRepository = createMockFromClass(TypeormFollowRepository as any)
 
-    service = new ProfileService(repository)
+    service = new ProfileService(userRepository, followRepository)
 
-    repository.findById.mockReturnValue(user)
+    userRepository.findById.mockReturnValue(user)
   })
 
 
@@ -30,13 +34,25 @@ describe("SERVICE - Profile", () => {
 
       const { password: _password, ...threatedUser } = user
 
-      expect(userProfile).toEqual(threatedUser)
+      expect(userProfile).toEqual(expect.objectContaining(threatedUser))
+    })
+
+    it("must show user followers", async () => {
+      const userProfile = await service.execute(user.id)
+
+      expect(userProfile).toHaveProperty('followers')
+    })
+
+    it("must show user followees", async () => {
+      const userProfile = await service.execute(user.id)
+
+      expect(userProfile).toHaveProperty('followees')
     })
   })
 
   describe("Error cases", () => {
     it("must not show user profile if user not exists", async () => {
-      repository.findById.mockReturnValueOnce(undefined)
+      userRepository.findById.mockReturnValueOnce(undefined)
 
       await expect(service.execute(user.id)).rejects.toBeInstanceOf(ApiRequestError)
     })

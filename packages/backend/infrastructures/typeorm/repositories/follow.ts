@@ -34,4 +34,24 @@ export class TypeormFollowRepository implements FollowRepository {
 
     return !!foundFollow
   }
+
+  async getFollowees(follower_id: string): Promise<Follow[]> {
+    const followees = await this.repository.find({
+      where: {
+        following_id: follower_id
+      }
+    })
+
+    return followees
+  }
+
+  async getFollowers(follower_id: string): Promise<Follow[]> {
+    const followers = await this.repository.find({
+      where: {
+        follower_id
+      }
+    })
+
+    return followers
+  }
 }

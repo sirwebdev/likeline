@@ -2,14 +2,17 @@ import { createUser } from "../../../../utils/create-user"
 import { FileService } from "@domains/interfaces/file-service"
 import { FSFileService } from "@domains/services/file/fs-service"
 import { UserRepository } from "@infrastructures/repositories/user"
+import { FollowRepository } from "@infrastructures/repositories/follow"
 import { TypeormUserRepository } from "@infrastructures/typeorm/repositories/user"
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error"
+import { TypeormFollowRepository } from "@infrastructures/typeorm/repositories/follow"
 import { MockClass, createMockFromClass } from "../../../../utils/create-mock-from-class"
 import { UpdateProfilePhotoService } from "@api/endpoints/user/services/update-profile-photo"
 
 let service: UpdateProfilePhotoService
 let fileService: MockClass<FileService>
-let repository: MockClass<UserRepository>
+let userRepository: MockClass<UserRepository>
+let followRepository: MockClass<FollowRepository>
 
 describe("SERVICE - UpdateProfilePhoto", () => {
   const USER = createUser()
@@ -17,16 +20,16 @@ describe("SERVICE - UpdateProfilePhoto", () => {
 
   beforeEach(() => {
     fileService = createMockFromClass(FSFileService as any)
-    repository = createMockFromClass(TypeormUserRepository as any)
+    userRepository = createMockFromClass(TypeormUserRepository as any)
+    followRepository = createMockFromClass(TypeormFollowRepository as any)
 
-    service = new UpdateProfilePhotoService(repository, fileService)
+    service = new UpdateProfilePhotoService(userRepository, fileService, followRepository)
   })
 
   describe("Successful cases", () => {
-
     beforeEach(() => {
-      repository.findById.mockReturnValue(USER)
-      repository.update.mockReturnValue(USER)
+      userRepository.findById.mockReturnValue(USER)
+      userRepository.update.mockReturnValue(USER)
     })
 
     it("Must save file when user when user exists", async () => {
@@ -39,12 +42,12 @@ describe("SERVICE - UpdateProfilePhoto", () => {
     it("Must update user photo_file", async () => {
       await service.execute({ userID: USER.id, tempFilename: TEMP_FILE_NAME })
 
-      expect(repository.update).toHaveBeenCalledWith(USER.id, { photo_filename: `${USER.id}_profile.ext` })
+      expect(userRepository.update).toHaveBeenCalledWith(USER.id, { photo_filename: `${USER.id}_profile.ext` })
     })
 
     it("Must delete existent user photo when user already have profile photo", async () => {
       const PHOTO_FILENAME = 'existent_user_profile_photo.jpg'
-      repository.findById.mockReturnValueOnce({ ...USER, photo_filename: PHOTO_FILENAME })
+      userRepository.findById.mockReturnValueOnce({ ...USER, photo_filename: PHOTO_FILENAME })
 
       await service.execute({ userID: USER.id, tempFilename: TEMP_FILE_NAME })
 
@@ -54,7 +57,7 @@ describe("SERVICE - UpdateProfilePhoto", () => {
 
   describe("Error cases", () => {
     beforeEach(() => {
-      repository.findById.mockReturnValue(undefined)
+      userRepository.findById.mockReturnValue(undefined)
     })
 
     it("Must not update user profile when user not exists", async () => {
