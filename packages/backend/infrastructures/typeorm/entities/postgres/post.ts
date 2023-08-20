@@ -18,7 +18,7 @@ export class PostEntity implements Post {
   @Column()
   owner_id: string;
 
-  @ManyToOne(() => UserEntity, { cascade: true })
+  @ManyToOne(() => UserEntity, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn({ name: "owner_id" })
   owner: User;
 
