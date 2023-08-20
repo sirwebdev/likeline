@@ -4,7 +4,7 @@ import { ProfileWithPhotoUrl } from "../dtos/profile-with-photo-url";
 import { GLOBAL_PREFIX, PORT } from "@infrastructures/constants/server";
 import { Follow } from "@domains/entities/follow";
 
-const getPhotoLink = (req: Request, filename?: string | null): string | null => {
+export const getPhotoLink = (req: Request, filename?: string | null): string | null => {
   return filename ? `${req.protocol}://${req.hostname}:${PORT}${GLOBAL_PREFIX}/images/${filename}` : null
 }
 

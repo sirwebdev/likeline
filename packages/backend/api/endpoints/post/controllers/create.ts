@@ -1,10 +1,11 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { inject, injectable } from "tsyringe";
+
 import { Service } from "@api/dtos/service";
-import { CreatePostDTO } from "@api/endpoints/post/dtos/create";
 import { Post } from "@domains/entities/post";
-import { CREATE_POST_SERVICE_CONTAINER } from "@infrastructures/constants/containers";
+import { CreatePostDTO } from "@api/endpoints/post/dtos/create";
 import { ResolveController } from "@infrastructures/decorators/resolve-controller";
+import { CREATE_POST_SERVICE_CONTAINER } from "@infrastructures/constants/containers";
 
 @injectable()
 export class CreatePostController {
@@ -14,7 +15,7 @@ export class CreatePostController {
   ) { }
 
   @ResolveController(CreatePostController)
-  async execute(req: Request, res: Response) {
+  async execute(req: Request, res: Response, next: NextFunction) {
     const { title }: CreatePostDTO = req.body;
     const image = req.file!;
     const { id } = req.user
@@ -25,6 +26,9 @@ export class CreatePostController {
       image
     });
 
-    return res.status(201).json(post);
+    res.status(201)
+    res.locals.post = post
+
+    next()
   }
 }

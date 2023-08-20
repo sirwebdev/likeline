@@ -1,11 +1,8 @@
 import { CreateUserDTO } from "@api/endpoints/user/dtos/create-user";
-
-export function getRandomString(length: number) {
-  return Math.random().toString(36).substring(2, 2 + length);
-}
+import { createRandonString } from "./create_random_string";
 
 export function createUniqueUserPayload(): CreateUserDTO {
-  const randomString = getRandomString(5);
+  const randomString = createRandonString();
 
   return {
     name: 'John Doe',

@@ -1,10 +1,15 @@
 import { Router } from "express";
 import { container } from "tsyringe";
+
+import { ListPostsController } from "./controllers/list";
 import { CreatePostController } from "./controllers/create";
 import { uploadFile } from "@infrastructures/middlewares/upload-file";
+import { injectImageLink } from "./middlewares/inject-image-link";
 
 export const postRoutes = Router()
 
+const listPostsController = container.resolve(ListPostsController)
 const createPostController = container.resolve(CreatePostController)
 
-postRoutes.post('/', uploadFile.single('image'), createPostController.execute)
+postRoutes.get('/', listPostsController.execute, injectImageLink)
+postRoutes.post('/', uploadFile.single('image'), createPostController.execute, injectImageLink)

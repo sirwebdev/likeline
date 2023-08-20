@@ -1,8 +1,8 @@
 import { User } from "@domains/entities/user"
-import { getRandomString } from "./create-unique-user-payload"
+import { createRandonString } from "./create_random_string"
 
 export const createUser = () => {
-  const randomString = getRandomString(4)
+  const randomString = createRandonString()
 
   const user: User = {
     id: `user_id_${randomString}`,

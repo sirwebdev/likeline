@@ -1,5 +1,5 @@
 import { injectable } from "tsyringe";
-import { Repository } from "typeorm";
+import { In, Repository } from "typeorm";
 
 import { dataSource } from "../datasource";
 import { PostEntity } from "../entities/postgres/post";
@@ -38,5 +38,27 @@ export class TypeormPostRepository implements PostRepository {
     })
 
     await Promise.all(postsToUpdate)
+  }
+
+  async getFeedPosts(user_ids: string[]): Promise<Post[]> {
+    const foundPosts = await this.repository.find({
+      where: {
+        owner_id: In(user_ids)
+      },
+      order: {
+        created_at: 'desc'
+      },
+      relations: {
+        owner: true
+      },
+      select: {
+        owner: {
+          username: true,
+          photo_filename: true
+        }
+      }
+    })
+
+    return foundPosts
   }
 }

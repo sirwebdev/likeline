@@ -5,6 +5,7 @@ export const FOLLOW_REPOSITORY_CONTAINER = 'FollowRepository'
 export const FILE_SERVICE_CONTAINER = 'FileService'
 export const TOKEN_SERVICE_CONTAINER = 'TokenService'
 export const PROFILE_SERVICE_CONTAINER = 'ProfileService'
+export const LIST_POSTS_SERVICE_CONTAINER = 'ListPostsService'
 export const ENCRYPTION_SERVICE_CONTAINER = 'EncryptionService'
 export const DELETE_USER_SERVICE_CONTAINER = "DeleteUserService"
 export const CREATE_USER_SERVICE_CONTAINER = 'CreateUserService'
