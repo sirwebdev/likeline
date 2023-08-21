@@ -31,7 +31,7 @@ describe("SERVICE - ListPost", () => {
     service = new ListPostsService(userRepository, postRepository, followRepository);
 
     userRepository.findById.mockReturnValue(USER);
-    followRepository.getFollowers.mockReturnValue(FOLLOWERS);
+    followRepository.getFollowings.mockReturnValue(FOLLOWERS);
     postRepository.getFeedPosts.mockReturnValue(POSTS);
   });
 
@@ -40,7 +40,7 @@ describe("SERVICE - ListPost", () => {
       const result = await service.execute(USER.id);
       expect(result).toEqual(POSTS);
       expect(userRepository.findById).toHaveBeenCalledWith(USER.id);
-      expect(followRepository.getFollowers).toHaveBeenCalledWith(USER.id);
+      expect(followRepository.getFollowings).toHaveBeenCalledWith(USER.id);
       expect(postRepository.getFeedPosts).toHaveBeenCalledWith([...FOLLOWERS.map(follow => follow.following_id), USER.id]);
     });
   });

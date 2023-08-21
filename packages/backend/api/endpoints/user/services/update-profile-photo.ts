@@ -4,11 +4,11 @@ import { Service } from "@api/dtos/service";
 import { ProfileDTO } from "../dtos/profile";
 import { FileService } from "@domains/interfaces/file-service";
 import { UserRepository } from "@infrastructures/repositories/user";
+import { PostRepository } from "@infrastructures/repositories/post";
 import { UpdateProfilePhotoDTO } from "../dtos/update-profile-photo";
+import { FollowRepository } from "@infrastructures/repositories/follow";
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error";
 import { FILE_SERVICE_CONTAINER, FOLLOW_REPOSITORY_CONTAINER, POST_REPOSITORY_CONTAINER, USER_REPOSITORY_CONTAINER } from "@infrastructures/constants/containers";
-import { FollowRepository } from "@infrastructures/repositories/follow";
-import { PostRepository } from "@infrastructures/repositories/post";
 
 @injectable()
 export class UpdateProfilePhotoService implements Service<UpdateProfilePhotoDTO, ProfileDTO>{

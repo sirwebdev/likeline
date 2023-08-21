@@ -40,6 +40,18 @@ export class TypeormFollowRepository implements FollowRepository {
     })
   }
 
+  async deleteAllByUserId(follower_id: string): Promise<void> {
+    await this.repository.deleteMany(
+      {
+        $or: [
+          { following_id: follower_id },
+          { follower_id: follower_id }
+        ]
+
+      }
+    )
+  }
+
   async checkIsFollowing(follower_id: string, followee: string): Promise<boolean> {
     const foundFollow = await this.repository.findOne({
       where: {

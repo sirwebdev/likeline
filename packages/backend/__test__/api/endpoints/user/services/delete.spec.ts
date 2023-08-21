@@ -6,10 +6,13 @@ import { TypeormUserRepository } from "@infrastructures/typeorm/repositories/use
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error"
 import { FileService } from "@domains/interfaces/file-service"
 import { FSFileService } from "@domains/services/file/fs-service"
+import { FollowRepository } from "@infrastructures/repositories/follow"
+import { TypeormFollowRepository } from "@infrastructures/typeorm/repositories/follow"
 
 let service: DeleteUserService
 let fileService: MockClass<FileService>
 let repository: MockClass<UserRepository>
+let followRepository: MockClass<FollowRepository>
 
 describe("SERVICE - DeleteUser", () => {
   const USER = createUser()
@@ -17,8 +20,9 @@ describe("SERVICE - DeleteUser", () => {
   beforeEach(() => {
     fileService = createMockFromClass(FSFileService as any)
     repository = createMockFromClass(TypeormUserRepository as any)
+    followRepository = createMockFromClass(TypeormFollowRepository as any)
 
-    service = new DeleteUserService(repository, fileService)
+    service = new DeleteUserService(repository, fileService, followRepository)
   })
 
   describe("Successful cases", () => {
@@ -40,6 +44,14 @@ describe("SERVICE - DeleteUser", () => {
       await service.execute(USER.id)
 
       expect(fileService.deleteFile).toHaveBeenCalledWith(FILENAME)
+    })
+
+    it("Must delete all user follow and following registre", async () => {
+      repository.findById.mockReturnValueOnce({ ...USER, photo_filename: FILENAME })
+
+      await service.execute(USER.id)
+
+      expect(followRepository.deleteAllByUserId).toHaveBeenCalledWith(USER.id)
     })
   })
 
