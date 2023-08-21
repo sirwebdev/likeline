@@ -7,6 +7,7 @@ export const TOKEN_SERVICE_CONTAINER = 'TokenService'
 export const PROFILE_SERVICE_CONTAINER = 'ProfileService'
 export const LIST_POSTS_SERVICE_CONTAINER = 'ListPostsService'
 export const ENCRYPTION_SERVICE_CONTAINER = 'EncryptionService'
+export const DELETE_POST_SERVICE_CONTAINER = 'DeletePostService'
 export const DELETE_USER_SERVICE_CONTAINER = "DeleteUserService"
 export const CREATE_USER_SERVICE_CONTAINER = 'CreateUserService'
 export const CREATE_POST_SERVICE_CONTAINER = 'CreatePostService'
