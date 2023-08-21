@@ -9,7 +9,7 @@ import { ApiRequestError } from "@infrastructures/error-handling/api-request-err
 import { FOLLOW_REPOSITORY_CONTAINER, USER_REPOSITORY_CONTAINER } from "@infrastructures/constants/containers";
 
 @injectable()
-export class CreateFollowService implements Service<CreateFollowDTO, Follow>{
+export class FollowService implements Service<CreateFollowDTO, Follow>{
   constructor(
     @inject(FOLLOW_REPOSITORY_CONTAINER)
     private readonly followRepository: FollowRepository,

@@ -8,14 +8,14 @@ import { ResolveController } from "@infrastructures/decorators/resolve-controlle
 import { CREATE_FOLLOW_SERVICE_CONTAINER } from "@infrastructures/constants/containers";
 
 @injectable()
-export class CreateFollowController {
+export class FollowController {
   constructor(
     @inject(CREATE_FOLLOW_SERVICE_CONTAINER)
     private readonly service: Service<CreateFollowDTO, Follow>
   ) {
   }
 
-  @ResolveController(CreateFollowController)
+  @ResolveController(FollowController)
   async execute(req: Request, res: Response) {
     const { id } = req.user
     const { followee_id }: Pick<CreateFollowDTO, 'followee_id'> = req.body

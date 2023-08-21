@@ -1,13 +1,13 @@
+import { createUser } from "../../../../utils/create-user";
 import { UserRepository } from "@infrastructures/repositories/user";
+import { FollowService } from "@api/endpoints/follow/services/follow";
 import { FollowRepository } from "@infrastructures/repositories/follow";
 import { CreateFollowDTO } from "@api/endpoints/follow/dtos/create-follow";
-import { MockClass, createMockFromClass } from "../../../../utils/create-mock-from-class";
-import { CreateFollowService } from "@api/endpoints/follow/services/create";
 import { TypeormUserRepository } from "@infrastructures/typeorm/repositories/user";
 import { TypeormFollowRepository } from "@infrastructures/typeorm/repositories/follow";
-import { createUser } from "../../../../utils/create-user";
+import { MockClass, createMockFromClass } from "../../../../utils/create-mock-from-class";
 
-let service: CreateFollowService;
+let service: FollowService;
 let userRepository: MockClass<UserRepository>;
 let followRepository: MockClass<FollowRepository>;
 
@@ -20,7 +20,7 @@ describe("SERVICE - CreateFollow", () => {
   beforeEach(() => {
     userRepository = createMockFromClass(TypeormUserRepository as any);
     followRepository = createMockFromClass(TypeormFollowRepository as any);
-    service = new CreateFollowService(followRepository, userRepository);
+    service = new FollowService(followRepository, userRepository);
     followPayload = { follower_id: follower.id, followee_id: followee.id };
   });
 

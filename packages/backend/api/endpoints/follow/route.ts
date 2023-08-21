@@ -1,13 +1,13 @@
 import { Router } from "express";
 import { container } from "tsyringe";
 
-import { CreateFollowController } from "./controllers/create";
+import { FollowController } from "./controllers/follow";
 import { UnFollowController } from "./controllers/unfollow";
 
 export const followRoutes = Router()
 
+const followController = container.resolve(FollowController)
 const unFollowController = container.resolve(UnFollowController)
-const createFollowController = container.resolve(CreateFollowController)
 
+followRoutes.post('', followController.execute)
 followRoutes.delete('', unFollowController.execute)
-followRoutes.post('', createFollowController.execute)
