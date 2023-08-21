@@ -7,5 +7,5 @@ export class ProfileDTO {
   username: string;
   photo_filename?: string;
   followers: Follow[]
-  followees: Follow[]
+  following: Follow[]
 }

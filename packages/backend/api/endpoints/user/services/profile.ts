@@ -22,13 +22,13 @@ export class ProfileService implements Service<string, ProfileDTO> {
     if (!foundUser) throw new ApiRequestError('User profile not exists', 404)
 
     const followers = await this.followRepository.getFollowers(foundUser.id)
-    const followees = await this.followRepository.getFollowees(foundUser.id)
+    const following = await this.followRepository.getFollowings(foundUser.id)
 
     const { password: _password, ...user } = foundUser
 
     return {
       ...user,
-      followees,
+      following,
       followers
     }
   }

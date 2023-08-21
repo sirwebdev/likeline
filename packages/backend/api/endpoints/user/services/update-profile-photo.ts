@@ -51,13 +51,13 @@ export class UpdateProfilePhotoService implements Service<UpdateProfilePhotoDTO,
     await this.followRepository.updatePhotoFromAllFollowOfUserID(updateUser.id, fileName)
 
     const followers = await this.followRepository.getFollowers(user.id)
-    const followees = await this.followRepository.getFollowees(user.id)
+    const followees = await this.followRepository.getFollowings(user.id)
 
     this.postRepository.updatePhotoFromAllPostFromUserID(updateUser.id, fileName)
 
     return {
       ...user,
-      followees,
+      following: followees,
       followers
     }
   }

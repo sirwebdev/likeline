@@ -37,16 +37,16 @@ describe("SERVICE - Profile", () => {
       expect(userProfile).toEqual(expect.objectContaining(threatedUser))
     })
 
+    it("must show user following", async () => {
+      const userProfile = await service.execute(user.id)
+
+      expect(userProfile).toHaveProperty('following')
+    })
+
     it("must show user followers", async () => {
       const userProfile = await service.execute(user.id)
 
       expect(userProfile).toHaveProperty('followers')
-    })
-
-    it("must show user followees", async () => {
-      const userProfile = await service.execute(user.id)
-
-      expect(userProfile).toHaveProperty('followees')
     })
   })
 

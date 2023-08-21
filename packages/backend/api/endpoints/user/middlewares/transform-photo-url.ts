@@ -11,7 +11,7 @@ export const getPhotoLink = (req: Request, filename?: string | null): string | n
 export const transformPhotoResponse = (req: Request, res: Response) => {
   const user: any = res.locals.user;
 
-  const { photo_filename, followers, followees, ...data } = user
+  const { photo_filename, followers, following, ...data } = user
 
   const response: ProfileWithPhotoUrl = {
     id: user.id,
@@ -20,7 +20,7 @@ export const transformPhotoResponse = (req: Request, res: Response) => {
     username: user.username,
     photo_url: getPhotoLink(req, user.photo_filename),
     followers: followers.map((follow: Follow) => ({ ...follow, follower_photo: getPhotoLink(req, follow.follower_photo), following_photo: getPhotoLink(req, follow.following_photo) })),
-    followees: followers.map((follow: Follow) => ({ ...follow, follower_photo: getPhotoLink(req, follow.follower_photo), following_photo: getPhotoLink(req, follow.following_photo) })),
+    following: following.map((follow: Follow) => ({ ...follow, follower_photo: getPhotoLink(req, follow.follower_photo), following_photo: getPhotoLink(req, follow.following_photo) })),
     ...data
   };
 

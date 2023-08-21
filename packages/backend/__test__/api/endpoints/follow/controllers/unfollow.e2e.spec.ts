@@ -13,7 +13,7 @@ let api: SuperTest<Test>;
 
 const BASE_URL = `${GLOBAL_PREFIX}/follow`;
 
-describe("CONTROLLER - CreateFollow", () => {
+describe("CONTROLLER - UnFollowService", () => {
   beforeAll(async () => {
     api = await getApiForTest();
 

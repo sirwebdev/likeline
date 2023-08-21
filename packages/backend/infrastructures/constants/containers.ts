@@ -11,5 +11,6 @@ export const DELETE_USER_SERVICE_CONTAINER = "DeleteUserService"
 export const CREATE_USER_SERVICE_CONTAINER = 'CreateUserService'
 export const CREATE_POST_SERVICE_CONTAINER = 'CreatePostService'
 export const CREATE_FOLLOW_SERVICE_CONTAINER = 'CreateFollowService'
+export const DELETE_FOLLOW_SERVICE_CONTAINER = 'DeleteFollowService'
 export const AUTHENTICATION_SERVICE_CONTAINER = 'AuthenticationService'
 export const UPDATE_PROFILE_PHOTO_SERVICE_CONTAINER = 'UpdateProfilePhotoService'

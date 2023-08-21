@@ -7,6 +7,7 @@ import { Follow } from "@domains/entities/follow";
 import { FollowEntity } from "../entities/mongo/follow";
 import { FollowRepository } from "@infrastructures/repositories/follow";
 import { CreateFollowDTO } from "@infrastructures/dtos/create-follow";
+import { DeleteFollowDTO } from "@infrastructures/dtos/delete-follow";
 
 @injectable()
 export class TypeormFollowRepository implements FollowRepository {
@@ -32,6 +33,13 @@ export class TypeormFollowRepository implements FollowRepository {
     return createdFollow
   }
 
+  async delete({ follower_id, followee_id }: DeleteFollowDTO): Promise<void> {
+    await this.repository.delete({
+      following_id: followee_id,
+      follower_id
+    })
+  }
+
   async checkIsFollowing(follower_id: string, followee: string): Promise<boolean> {
     const foundFollow = await this.repository.findOne({
       where: {
@@ -43,10 +51,10 @@ export class TypeormFollowRepository implements FollowRepository {
     return !!foundFollow
   }
 
-  async getFollowees(follower_id: string): Promise<Follow[]> {
+  async getFollowings(follower_id: string): Promise<Follow[]> {
     const followees = await this.repository.find({
       where: {
-        following_id: follower_id
+        follower_id
       }
     })
 
@@ -56,7 +64,7 @@ export class TypeormFollowRepository implements FollowRepository {
   async getFollowers(follower_id: string): Promise<Follow[]> {
     const followers = await this.repository.find({
       where: {
-        follower_id
+        following_id: follower_id
       }
     })
 
