@@ -25,7 +25,7 @@ export class ListPostsService implements Service<User['id'], Post[]> {
 
     if (!foundUser) throw new ApiRequestError('User not found', 404)
 
-    const followers = await this.followRepository.getFollowers(foundUser.id)
+    const followers = await this.followRepository.getFollowings(foundUser.id)
 
     const follower_ids = followers.map((follow => follow.following_id))
 
