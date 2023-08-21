@@ -14,7 +14,7 @@ let followRepository: MockClass<FollowRepository>;
 let follower = createUser()
 let followee = createUser()
 
-describe("SERVICE - CreateFollow", () => {
+describe("SERVICE - Follow", () => {
   let followPayload: CreateFollowDTO;
 
   beforeEach(() => {

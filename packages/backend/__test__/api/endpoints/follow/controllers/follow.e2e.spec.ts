@@ -13,7 +13,7 @@ let followee: User
 
 const BASE_URL = `${GLOBAL_PREFIX}/follow`;
 
-describe("CONTROLLER - CreateFollow", () => {
+describe("CONTROLLER - Follow", () => {
   beforeAll(async () => {
     api = await getApiForTest();
 
