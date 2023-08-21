@@ -1,7 +1,7 @@
 import { Follow } from "@domains/entities/follow";
 
 export class ProfileDTO {
-  id: any;
+  id: string;
   name: string;
   email: string;
   username: string;
