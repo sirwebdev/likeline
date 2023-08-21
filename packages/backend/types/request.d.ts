@@ -9,6 +9,10 @@ declare namespace Express {
     user: {
       id: string;
     };
+    follow: {
+      follower_photo: string;
+      following_photo: string;
+    }
   }
 
   export interface Response {

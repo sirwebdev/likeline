@@ -1,9 +1,9 @@
 import { SuperTest, Test } from "supertest";
 
+import { User } from "@domains/entities/user";
 import { GLOBAL_PREFIX } from "@infrastructures/constants/server";
 import { getApiForTest } from "../../../../utils/get-api-for-test";
 import { createAndAuthenticateUser } from "../../../../utils/authenticate-user";
-import { User } from "@domains/entities/user";
 import { createUniqueUserPayload } from "../../../../utils/create-unique-user-payload";
 
 let token: string;

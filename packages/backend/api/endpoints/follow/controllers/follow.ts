@@ -1,5 +1,5 @@
 import { inject, injectable } from "tsyringe";
-import { Request, Response } from "express"
+import { NextFunction, Request, Response } from "express"
 
 import { Service } from "@api/dtos/service";
 import { Follow } from "@domains/entities/follow";
@@ -16,12 +16,15 @@ export class FollowController {
   }
 
   @ResolveController(FollowController)
-  async execute(req: Request, res: Response) {
+  async execute(req: Request, res: Response, next: NextFunction) {
     const { id } = req.user
     const { followee_id }: Pick<CreateFollowDTO, 'followee_id'> = req.body
 
     const follow = await this.service.execute({ followee_id, follower_id: id })
 
-    return res.status(201).json(follow)
+    res.locals.follow = follow
+    res.status(201)
+
+    next()
   }
 }
