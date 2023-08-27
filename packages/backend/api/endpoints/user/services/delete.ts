@@ -3,10 +3,10 @@ import { inject, injectable } from "tsyringe";
 import { Service } from "@api/dtos/service";
 import { FileService } from "@domains/interfaces/file-service";
 import { UserRepository } from "@infrastructures/repositories/user";
+import { PostRepository } from "@infrastructures/repositories/post";
+import { FollowRepository } from "@infrastructures/repositories/follow";
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error";
 import { FILE_SERVICE_CONTAINER, FOLLOW_REPOSITORY_CONTAINER, POST_REPOSITORY_CONTAINER, USER_REPOSITORY_CONTAINER } from "@infrastructures/constants/containers";
-import { FollowRepository } from "@infrastructures/repositories/follow";
-import { PostRepository } from "@infrastructures/repositories/post";
 
 @injectable()
 export class DeleteUserService implements Service<string, void> {
