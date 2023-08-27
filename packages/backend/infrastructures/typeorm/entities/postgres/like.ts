@@ -17,11 +17,11 @@ export class LikeEntity implements Like {
   @Column()
   post_id: string
 
-  @ManyToOne(() => UserEntity, user => user.likes)
+  @ManyToOne(() => UserEntity, user => user.likes, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user: User
 
-  @ManyToOne(() => PostEntity, post => post.likes)
+  @ManyToOne(() => PostEntity, post => post.likes, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'post_id' })
   post: Post
 

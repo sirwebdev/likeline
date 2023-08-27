@@ -1,3 +1,4 @@
+import './like'
 import './auth'
 import './user'
 import './post'
