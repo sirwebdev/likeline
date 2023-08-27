@@ -5,4 +5,5 @@ export class User {
   password: string;
   username: string;
   photo_filename?: string;
+  photo_url?: string | null;
 }

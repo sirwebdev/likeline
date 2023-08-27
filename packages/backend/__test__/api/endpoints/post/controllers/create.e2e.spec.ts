@@ -15,7 +15,7 @@ let imageFile: fs.ReadStream
 
 describe("CONTROLLER - createPost", () => {
   beforeAll(async () => {
-    const imagePath = path.join(__dirname, '../temp/image.test');
+    const imagePath = path.join(__dirname, '../../../../temp/image.test');
     imageFile = fs.createReadStream(imagePath)
 
     api = await getApiForTest();

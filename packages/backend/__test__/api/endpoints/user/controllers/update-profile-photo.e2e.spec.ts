@@ -15,7 +15,7 @@ let api: SuperTest<Test>
 const BASE_URL = `${GLOBAL_PREFIX}/users`
 
 describe("CONTROLLER - UpdateProfilePhoto", () => {
-  const filename = path.resolve(__dirname, '../temp/abc.json');
+  const filename = path.resolve(__dirname, '../../../../temp/image.test');
 
   beforeAll(async () => {
     api = await getApiForTest()
@@ -31,7 +31,7 @@ describe("CONTROLLER - UpdateProfilePhoto", () => {
         Authorization: `Bearer ${token}`
       })
 
-      expect(body.photo_url).toEqual(expect.stringContaining(`api/images/${user.id}_profile.json`))
+      expect(body.photo_url).toEqual(expect.stringContaining(`api/images/${user.id}_profile.test`))
     })
   })
 

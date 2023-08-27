@@ -21,7 +21,7 @@ describe("CONTROLLER - DeletePost", () => {
 
   describe("Successful cases", () => {
     it("Must delete the authenticated user's post", async () => {
-      const imagePath = path.join(__dirname, '../temp/image.test');
+      const imagePath = path.join(__dirname, '../../../../temp/image.test');
       const imageFile = fs.createReadStream(imagePath)
 
       const { body } = await api.post(`${BASE_URL}`)
@@ -55,7 +55,7 @@ describe("CONTROLLER - DeletePost", () => {
     it("Must not delete a post if not owned by the user", async () => {
       const otherUserAuthentication = await createAndAuthenticateUser(api)
 
-      const imagePath = path.join(__dirname, '../temp/image.test');
+      const imagePath = path.join(__dirname, '../../../../temp/image.test');
       const imageFile = fs.createReadStream(imagePath)
 
       const { body: postOfOtherUser } = await api.post(`${BASE_URL}`)

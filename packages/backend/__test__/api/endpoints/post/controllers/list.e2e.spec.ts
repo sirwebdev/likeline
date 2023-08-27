@@ -18,7 +18,7 @@ let imageFile: fs.ReadStream
 
 describe("CONTROLLER - listPost", () => {
   beforeAll(async () => {
-    const imagePath = path.join(__dirname, '../temp/image.test');
+    const imagePath = path.join(__dirname, '../../../../temp/image.test');
     imageFile = fs.createReadStream(imagePath)
 
     api = await getApiForTest();
@@ -49,5 +49,15 @@ describe("CONTROLLER - listPost", () => {
         }
       })]));
     });
+
+    it("Must all posts have a valid user photo URL when post have some like", async () => {
+      await api.post(`${GLOBAL_PREFIX}/likes/${post.id}`).set('Authorization', `Bearer ${token}`)
+
+      const { body, status } = await api.get(BASE_URL)
+        .set("Authorization", `Bearer ${token}`)
+
+      expect(status).toEqual(200)
+      expect(body.every((post: Post) => post.likes.every(like => like.user.photo_url?.includes('/api/images/') || like.user.photo_url === null))).toBeTruthy();
+    })
   });
 });

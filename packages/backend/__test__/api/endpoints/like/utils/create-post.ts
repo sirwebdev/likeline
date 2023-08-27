@@ -5,13 +5,13 @@ import { createAndAuthenticateUser } from '../../../../utils/authenticate-user';
 import { GLOBAL_PREFIX } from '@infrastructures/constants/server';
 
 export const createPostForE2ETest = async (api: SuperTest<Test>) => {
-  const imagePath = path.join(__dirname, '../../post/temp/image.test');
+  const imagePath = path.join(__dirname, '../../../../temp/image.test');
   const imageFile = fs.createReadStream(imagePath)
 
   const authenticatedUser = await createAndAuthenticateUser(api);
 
   const payload = {
-    title: "Some random pst",
+    title: "Some random post",
     image: imageFile
   };
 
