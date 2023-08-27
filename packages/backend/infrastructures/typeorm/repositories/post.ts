@@ -76,4 +76,14 @@ export class TypeormPostRepository implements PostRepository {
   async delete(post_id: string): Promise<void> {
     await this.repository.delete(post_id)
   }
+
+  async getPostsByUserID(user_id: string): Promise<Post[]> {
+    const posts = await this.repository.find({
+      where: {
+        owner_id: user_id
+      }
+    })
+
+    return posts
+  }
 }
