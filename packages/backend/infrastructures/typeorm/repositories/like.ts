@@ -1,10 +1,11 @@
-import { LikePostDTO } from "@api/endpoints/like/dtos/like-post";
-import { Like } from "@domains/entities/like";
-import { LikeRepository } from "@infrastructures/repositories/like";
-import { injectable } from "tsyringe";
 import { Repository } from "typeorm";
-import { LikeEntity } from "../entities/postgres/like";
+import { injectable } from "tsyringe";
+
 import { dataSource } from "../datasource";
+import { Like } from "@domains/entities/like";
+import { LikeEntity } from "../entities/postgres/like";
+import { LikePostDTO } from "@api/endpoints/like/dtos/like-post";
+import { LikeRepository } from "@infrastructures/repositories/like";
 
 @injectable()
 export class TypeormLikeRepository implements LikeRepository {
@@ -34,5 +35,26 @@ export class TypeormLikeRepository implements LikeRepository {
     })
 
     return !!foundLike
+  }
+
+  async getLikes(post_id: string): Promise<Like[]> {
+    const likes = await this.repository.find({
+      where: {
+        post_id
+      },
+      relations: {
+        user: true
+      },
+      select: {
+        id: true,
+        created_at: true,
+        user: {
+          username: true,
+          photo_filename: true
+        }
+      }
+    })
+
+    return likes
   }
 }

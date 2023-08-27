@@ -21,27 +21,46 @@ export class CreatePostService implements Service<CreatePostDTO, Post> {
   ) { }
 
   private extractFileExtension(filename: string) {
-    const splitedFileByPoint = filename.split('.')
+    return filename.split('.').pop()!;
+  }
 
-    const fileExtension = splitedFileByPoint[splitedFileByPoint.length - 1]
+  private generateRandomString(length: number) {
+    const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
 
-    return fileExtension
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      result += characters.charAt(randomIndex);
+    }
+
+    return result;
+  }
+
+  private generateUniqueFilename(originalname: string, owner: string) {
+    const fileExtension = this.extractFileExtension(originalname);
+    const randomString = this.generateRandomString(10);
+    return `${owner}_${randomString}_post.${fileExtension}`;
   }
 
   async execute({ title, image, owner }: CreatePostDTO): Promise<Post> {
-    if (!image) throw new ApiRequestError('Image is required', 400)
-    if (!title) throw new ApiRequestError('Title is required', 400)
+    if (!image) {
+      throw new ApiRequestError('Image is required', 400);
+    }
 
-    const foundUser = await this.userRepository.findById(owner)
+    if (!title) {
+      throw new ApiRequestError('Title is required', 400);
+    }
 
-    if (!foundUser) throw new ApiRequestError('User not exists', 404)
+    const foundUser = await this.userRepository.findById(owner);
 
-    const { originalname } = image
+    if (!foundUser) {
+      throw new ApiRequestError('User not exists', 404);
+    }
 
-    const fileExtension = this.extractFileExtension(originalname)
-    const filename = `${owner}_post.${fileExtension}`
+    const { originalname } = image;
+    const filename = this.generateUniqueFilename(originalname, owner);
 
-    await this.fileService.saveFile(originalname, filename)
+    await this.fileService.saveFile(originalname, filename);
 
     const post = await this.postRepository.create({
       title,
@@ -49,6 +68,6 @@ export class CreatePostService implements Service<CreatePostDTO, Post> {
       image: filename
     });
 
-    return post;
+    return { ...post, likes: [] };
   }
 }

@@ -49,14 +49,15 @@ export class TypeormPostRepository implements PostRepository {
         created_at: 'desc'
       },
       relations: {
-        owner: true
+        owner: true,
+        likes: true,
       },
       select: {
         owner: {
           username: true,
           photo_filename: true
         }
-      }
+      },
     })
 
     return foundPosts

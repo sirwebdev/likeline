@@ -36,6 +36,12 @@ describe("SERVICE - CreatePost", () => {
       expect(postRepository.create).toHaveBeenCalledWith(expect.objectContaining({ title: postPayload.title }));
       expect(fileService.saveFile).toHaveBeenCalledWith(postPayload.image.originalname, expect.stringContaining(postPayload.owner));
     });
+
+    it("Must post have no one like by default", async () => {
+      userRepository.findById.mockReturnValue({ id: postPayload.owner });
+      const post = await service.execute(postPayload);
+      expect(post.likes).toHaveLength(0);
+    })
   });
 
   describe("Error cases", () => {

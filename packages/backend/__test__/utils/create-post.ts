@@ -7,6 +7,7 @@ export const createPost = (user_id: User['id']): Post => {
     id: createRandonString(),
     owner_id: user_id,
     title: 'Some Random Title',
-    image: 'some-image.png'
+    image: 'some-image.png',
+    likes: []
   }
 }

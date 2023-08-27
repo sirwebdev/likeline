@@ -3,6 +3,7 @@ import { Follow } from '@domains/entities/follow';
 import { createPost } from '../../../../utils/create-post';
 import { createUser } from '../../../../utils/create-user';
 import { createFollow } from '../../../../utils/create-follow';
+import { LikeRepository } from '@infrastructures/repositories/like';
 import { PostRepository } from "@infrastructures/repositories/post";
 import { UserRepository } from "@infrastructures/repositories/user";
 import { ListPostsService } from '@api/endpoints/post/services/list';
@@ -12,10 +13,12 @@ import { TypeormUserRepository } from '@infrastructures/typeorm/repositories/use
 import { ApiRequestError } from '@infrastructures/error-handling/api-request-error';
 import { TypeormFollowRepository } from "@infrastructures/typeorm/repositories/follow";
 import { MockClass, createMockFromClass } from "../../../../utils/create-mock-from-class";
+import { TypeormLikeRepository } from '@infrastructures/typeorm/repositories/like';
 
 let postRepository: MockClass<PostRepository>;
 let userRepository: MockClass<UserRepository>;
 let followRepository: MockClass<FollowRepository>;
+let likeRepository: MockClass<LikeRepository>;
 
 describe("SERVICE - ListPost", () => {
   const USER = createUser();
@@ -27,9 +30,11 @@ describe("SERVICE - ListPost", () => {
   beforeEach(() => {
     postRepository = createMockFromClass(TypeormPostRepository as any);
     userRepository = createMockFromClass(TypeormUserRepository as any);
+    likeRepository = createMockFromClass(TypeormLikeRepository as any);
     followRepository = createMockFromClass(TypeormFollowRepository as any);
-    service = new ListPostsService(userRepository, postRepository, followRepository);
+    service = new ListPostsService(userRepository, postRepository, followRepository, likeRepository);
 
+    likeRepository.getLikes.mockReturnValue([]);
     userRepository.findById.mockReturnValue(USER);
     followRepository.getFollowings.mockReturnValue(FOLLOWERS);
     postRepository.getFeedPosts.mockReturnValue(POSTS);
