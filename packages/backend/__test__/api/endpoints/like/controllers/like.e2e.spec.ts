@@ -2,9 +2,9 @@ import { SuperTest, Test } from "supertest";
 
 import { Post } from "@domains/entities/post";
 import { User } from "@domains/entities/user";
-import { createPostForE2ETest } from "../utils/create-post";
 import { GLOBAL_PREFIX } from "@infrastructures/constants/server";
 import { getApiForTest } from "../../../../utils/get-api-for-test";
+import { createPostForController } from "../utils/create-post-for-controller";
 
 let post: Post;
 let user: User;
@@ -18,7 +18,7 @@ describe("CONTROLLER - LikePost", () => {
 
     api = await getApiForTest();
 
-    const response = await createPostForE2ETest(api)
+    const response = await createPostForController(api)
 
     token = response.token;
     user = response.user;

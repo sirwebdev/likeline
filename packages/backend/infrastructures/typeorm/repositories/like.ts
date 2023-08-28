@@ -57,4 +57,21 @@ export class TypeormLikeRepository implements LikeRepository {
 
     return likes
   }
+
+  async findById(like_id: string): Promise<Like | undefined> {
+    const foundLike = await this.repository.findOne({
+      where: {
+        id: like_id
+      }
+    })
+
+    return foundLike ?? undefined
+  }
+
+  async delete(like_id: string): Promise<void> {
+    await this.repository.delete({
+      id: like_id
+    })
+  }
+
 }

@@ -4,7 +4,7 @@ import { SuperTest, Test } from 'supertest';
 import { createAndAuthenticateUser } from '../../../../utils/authenticate-user';
 import { GLOBAL_PREFIX } from '@infrastructures/constants/server';
 
-export const createPostForE2ETest = async (api: SuperTest<Test>) => {
+export const createPostForController = async (api: SuperTest<Test>) => {
   const imagePath = path.join(__dirname, '../../../../temp/image.test');
   const imageFile = fs.createReadStream(imagePath)
 
