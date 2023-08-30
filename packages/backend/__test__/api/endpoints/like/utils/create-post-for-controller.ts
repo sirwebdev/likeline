@@ -1,12 +1,11 @@
-import fs from 'fs'
-import path from "path";
 import { SuperTest, Test } from 'supertest';
-import { createAndAuthenticateUser } from '../../../../utils/authenticate-user';
+
+import { getImageFile } from '../../../../utils/get-image-file';
 import { GLOBAL_PREFIX } from '@infrastructures/constants/server';
+import { createAndAuthenticateUser } from '../../../../utils/authenticate-user';
 
 export const createPostForController = async (api: SuperTest<Test>) => {
-  const imagePath = path.join(__dirname, '../../../../temp/image.test');
-  const imageFile = fs.createReadStream(imagePath)
+  const imageFile = getImageFile()
 
   const authenticatedUser = await createAndAuthenticateUser(api);
 

@@ -1,10 +1,10 @@
-import fs from 'fs'
-import path from "path";
 import { SuperTest, Test } from "supertest";
 
 import { GLOBAL_PREFIX } from "@infrastructures/constants/server";
 import { getApiForTest } from "../../../../utils/get-api-for-test";
 import { createAndAuthenticateUser } from "../../../../utils/authenticate-user";
+import { getImageFile } from '../../../../utils/get-image-file';
+import { ReadStream } from "typeorm/platform/PlatformTools";
 
 let token: string;
 let api: SuperTest<Test>;
@@ -12,6 +12,8 @@ let api: SuperTest<Test>;
 const BASE_URL = `${GLOBAL_PREFIX}/posts`;
 
 describe("CONTROLLER - DeletePost", () => {
+  let imageFile: ReadStream
+
   beforeAll(async () => {
     api = await getApiForTest();
 
@@ -19,11 +21,12 @@ describe("CONTROLLER - DeletePost", () => {
     token = authentication.token;
   });
 
+  beforeEach(() => {
+    imageFile = getImageFile()
+  })
+
   describe("Successful cases", () => {
     it("Must delete the authenticated user's post", async () => {
-      const imagePath = path.join(__dirname, '../../../../temp/image.test');
-      const imageFile = fs.createReadStream(imagePath)
-
       const { body } = await api.post(`${BASE_URL}`)
         .field('title', "some title")
         .attach("image", imageFile)
@@ -54,9 +57,6 @@ describe("CONTROLLER - DeletePost", () => {
 
     it("Must not delete a post if not owned by the user", async () => {
       const otherUserAuthentication = await createAndAuthenticateUser(api)
-
-      const imagePath = path.join(__dirname, '../../../../temp/image.test');
-      const imageFile = fs.createReadStream(imagePath)
 
       const { body: postOfOtherUser } = await api.post(`${BASE_URL}`)
         .field('title', "some title")

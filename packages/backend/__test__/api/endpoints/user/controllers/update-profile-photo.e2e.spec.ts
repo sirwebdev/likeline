@@ -1,4 +1,3 @@
-import path from "path"
 import { SuperTest, Test } from "supertest"
 
 
@@ -7,6 +6,7 @@ import { GLOBAL_PREFIX } from "@infrastructures/constants/server"
 import { getApiForTest } from "../../../../utils/get-api-for-test"
 import { createAndAuthenticateUser } from "../../../../utils/authenticate-user"
 import { TypeormUserRepository } from "@infrastructures/typeorm/repositories/user"
+import { getImageFile } from "../../../../utils/get-image-file"
 
 let user: User
 let token: string
@@ -15,8 +15,6 @@ let api: SuperTest<Test>
 const BASE_URL = `${GLOBAL_PREFIX}/users`
 
 describe("CONTROLLER - UpdateProfilePhoto", () => {
-  const filename = path.resolve(__dirname, '../../../../temp/image.test');
-
   beforeAll(async () => {
     api = await getApiForTest()
 
@@ -27,7 +25,7 @@ describe("CONTROLLER - UpdateProfilePhoto", () => {
 
   describe("Successful cases", () => {
     it("Must update profile photo", async () => {
-      const { body } = await api.put(`${BASE_URL}/profile-photo`).attach('photo', filename).set({
+      const { body } = await api.put(`${BASE_URL}/profile-photo`).attach('photo', getImageFile()).set({
         Authorization: `Bearer ${token}`
       })
 
@@ -40,7 +38,7 @@ describe("CONTROLLER - UpdateProfilePhoto", () => {
       const repository = new TypeormUserRepository()
       await repository.deleteById(user.id)
 
-      const { body, status } = await api.put(`${BASE_URL}/profile-photo`).attach('photo', filename).set({
+      const { body, status } = await api.put(`${BASE_URL}/profile-photo`).attach('photo', getImageFile()).set({
         Authorization: `Bearer ${token}`
       })
 

@@ -1,22 +1,19 @@
-import fs from 'fs'
-import path from "path";
 import { SuperTest, Test } from "supertest";
 
 import { GLOBAL_PREFIX } from "@infrastructures/constants/server";
 import { getApiForTest } from "../../../../utils/get-api-for-test";
 import { createAndAuthenticateUser } from "../../../../utils/authenticate-user";
+import { getImageFile } from '../../../../utils/get-image-file';
 
 let token: string;
 let api: SuperTest<Test>;
 
 const BASE_URL = `${GLOBAL_PREFIX}/posts`;
 
-let imageFile: fs.ReadStream
+const imageFile = getImageFile()
 
 describe("CONTROLLER - createPost", () => {
   beforeAll(async () => {
-    const imagePath = path.join(__dirname, '../../../../temp/image.test');
-    imageFile = fs.createReadStream(imagePath)
 
     api = await getApiForTest();
 

@@ -1,9 +1,8 @@
-import fs from "fs"
-import path from "path";
 import { SuperTest, Test } from "supertest";
 
 import { Post } from "@domains/entities/post";
 import { User } from "@domains/entities/user";
+import { getImageFile } from "../../../../utils/get-image-file";
 import { GLOBAL_PREFIX } from "@infrastructures/constants/server";
 import { getApiForTest } from "../../../../utils/get-api-for-test";
 import { createAndAuthenticateUser } from '../../../../utils/authenticate-user';
@@ -14,12 +13,10 @@ let token: string;
 let api: SuperTest<Test>;
 
 const BASE_URL = `${GLOBAL_PREFIX}/posts`;
-let imageFile: fs.ReadStream
 
 describe("CONTROLLER - listPost", () => {
   beforeAll(async () => {
-    const imagePath = path.join(__dirname, '../../../../temp/image.test');
-    imageFile = fs.createReadStream(imagePath)
+    const imageFile = getImageFile()
 
     api = await getApiForTest();
 
@@ -35,6 +32,7 @@ describe("CONTROLLER - listPost", () => {
 
     post = body
   });
+
 
   describe("Successful cases", () => {
     it("Must list a new post for a logged user", async () => {

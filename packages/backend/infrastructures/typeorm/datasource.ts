@@ -1,8 +1,7 @@
 import "dotenv/config"
 import { DataSource } from 'typeorm'
 
-const environment = process.env.NODE_ENV
-export const isTestEnvironment = environment === 'test';
+import { isTestEnvironment } from "@infrastructures/constants/server"
 
 const POSTGRES_ENTITES_PATHING = `${__dirname}/entities/postgres/**/*{.ts,.js}`
 const POSTGRES_MIGRATIONS_PATHING = `${__dirname}/migrations/postgres/**/*{.ts,.js}`

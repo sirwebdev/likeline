@@ -7,9 +7,9 @@ import express, { Express } from 'express'
 import '@infrastructures/containers'
 
 import { apiRoutes } from "./routes"
-import { dataSource, isTestEnvironment } from "@infrastructures/typeorm/datasource"
-import { GLOBAL_PREFIX, STATIC_IMAGES_PATH, UPLOADS_FOLDER } from "@infrastructures/constants/server"
+import { dataSource } from "@infrastructures/typeorm/datasource"
 import { CentralizedErrorHandler } from "@infrastructures/error-handling/centralized-error-handler"
+import { GLOBAL_PREFIX, STATIC_IMAGES_PATH, UPLOADS_FOLDER, isTestEnvironment } from "@infrastructures/constants/server"
 
 
 export class Server {
