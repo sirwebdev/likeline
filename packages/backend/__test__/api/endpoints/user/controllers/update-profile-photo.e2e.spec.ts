@@ -4,7 +4,7 @@ import { SuperTest, Test } from "supertest"
 import { User } from "@domains/entities/user"
 import { GLOBAL_PREFIX } from "@infrastructures/constants/server"
 import { getApiForTest } from "../../../../utils/get-api-for-test"
-import { createAndAuthenticateUser } from "../../../../utils/authenticate-user"
+import { authenticateUser } from "../../../../utils/authenticate-user"
 import { TypeormUserRepository } from "@infrastructures/typeorm/repositories/user"
 import { getImageFile } from "../../../../utils/get-image-file"
 
@@ -18,7 +18,7 @@ describe("CONTROLLER - UpdateProfilePhoto", () => {
   beforeAll(async () => {
     api = await getApiForTest()
 
-    const authentication = await createAndAuthenticateUser(api)
+    const authentication = await authenticateUser(api)
     user = authentication.user
     token = authentication.token
   })

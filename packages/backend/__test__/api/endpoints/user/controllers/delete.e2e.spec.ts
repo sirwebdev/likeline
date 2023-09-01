@@ -2,7 +2,7 @@ import { SuperTest, Test } from "supertest"
 
 import { GLOBAL_PREFIX } from "@infrastructures/constants/server"
 import { getApiForTest } from "../../../../utils/get-api-for-test"
-import { createAndAuthenticateUser } from "../../../../utils/authenticate-user"
+import { authenticateUser } from "../../../../utils/authenticate-user"
 
 let token: string
 let api: SuperTest<Test>
@@ -13,7 +13,7 @@ describe("CONTROLLER - DeleteUser", () => {
   beforeAll(async () => {
     api = await getApiForTest()
 
-    const authentication = await createAndAuthenticateUser(api)
+    const authentication = await authenticateUser(api)
     token = authentication.token
   })
 

@@ -5,7 +5,7 @@ import { User } from "@domains/entities/user";
 import { getImageFile } from "../../../../utils/get-image-file";
 import { GLOBAL_PREFIX } from "@infrastructures/constants/server";
 import { getApiForTest } from "../../../../utils/get-api-for-test";
-import { createAndAuthenticateUser } from '../../../../utils/authenticate-user';
+import { authenticateUser } from '../../../../utils/authenticate-user';
 
 let post: Post
 let user: User
@@ -20,7 +20,7 @@ describe("CONTROLLER - listPost", () => {
 
     api = await getApiForTest();
 
-    const authenticatedUser = await createAndAuthenticateUser(api);
+    const authenticatedUser = await authenticateUser(api);
 
     user = authenticatedUser.user;
     token = authenticatedUser.token;

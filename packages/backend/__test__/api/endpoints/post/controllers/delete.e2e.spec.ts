@@ -2,7 +2,7 @@ import { SuperTest, Test } from "supertest";
 
 import { GLOBAL_PREFIX } from "@infrastructures/constants/server";
 import { getApiForTest } from "../../../../utils/get-api-for-test";
-import { createAndAuthenticateUser } from "../../../../utils/authenticate-user";
+import { authenticateUser } from "../../../../utils/authenticate-user";
 import { getImageFile } from '../../../../utils/get-image-file';
 import { ReadStream } from "typeorm/platform/PlatformTools";
 
@@ -17,7 +17,7 @@ describe("CONTROLLER - DeletePost", () => {
   beforeAll(async () => {
     api = await getApiForTest();
 
-    const authentication = await createAndAuthenticateUser(api);
+    const authentication = await authenticateUser(api);
     token = authentication.token;
   });
 
@@ -56,7 +56,7 @@ describe("CONTROLLER - DeletePost", () => {
     });
 
     it("Must not delete a post if not owned by the user", async () => {
-      const otherUserAuthentication = await createAndAuthenticateUser(api)
+      const otherUserAuthentication = await authenticateUser(api)
 
       const { body: postOfOtherUser } = await api.post(`${BASE_URL}`)
         .field('title', "some title")

@@ -2,7 +2,7 @@ import { SuperTest, Test } from "supertest";
 
 import { GLOBAL_PREFIX } from "@infrastructures/constants/server";
 import { getApiForTest } from "../../../../utils/get-api-for-test";
-import { createAndAuthenticateUser } from "../../../../utils/authenticate-user";
+import { authenticateUser } from "../../../../utils/authenticate-user";
 import { getImageFile } from '../../../../utils/get-image-file';
 
 let token: string;
@@ -17,7 +17,7 @@ describe("CONTROLLER - createPost", () => {
 
     api = await getApiForTest();
 
-    const authenticatedUser = await createAndAuthenticateUser(api);
+    const authenticatedUser = await authenticateUser(api);
 
     token = authenticatedUser.token;
   });

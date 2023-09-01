@@ -3,7 +3,7 @@ import { SuperTest, Test } from "supertest";
 import { User } from "@domains/entities/user";
 import { GLOBAL_PREFIX } from "@infrastructures/constants/server";
 import { getApiForTest } from "../../../../utils/get-api-for-test";
-import { createAndAuthenticateUser } from "../../../../utils/authenticate-user";
+import { authenticateUser } from "../../../../utils/authenticate-user";
 import { createUniqueUserPayload } from "../../../../utils/create-unique-user-payload";
 
 let token: string;
@@ -17,7 +17,7 @@ describe("CONTROLLER - Follow", () => {
   beforeAll(async () => {
     api = await getApiForTest();
 
-    const authenticatedUser = await createAndAuthenticateUser(api);
+    const authenticatedUser = await authenticateUser(api);
 
     token = authenticatedUser.token;
     follower = authenticatedUser.user;

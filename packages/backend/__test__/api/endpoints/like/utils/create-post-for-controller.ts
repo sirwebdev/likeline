@@ -2,12 +2,12 @@ import { SuperTest, Test } from 'supertest';
 
 import { getImageFile } from '../../../../utils/get-image-file';
 import { GLOBAL_PREFIX } from '@infrastructures/constants/server';
-import { createAndAuthenticateUser } from '../../../../utils/authenticate-user';
+import { authenticateUser } from '../../../../utils/authenticate-user';
 
 export const createPostForController = async (api: SuperTest<Test>) => {
   const imageFile = getImageFile()
 
-  const authenticatedUser = await createAndAuthenticateUser(api);
+  const authenticatedUser = await authenticateUser(api);
 
   const payload = {
     title: "Some random post",
