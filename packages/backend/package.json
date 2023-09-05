@@ -5,7 +5,7 @@
     "test": "jest",
     "test:watch": "jest --watch --coverage",
     "typeorm": "tsnd -r tsconfig-paths/register ../../node_modules/typeorm/cli.js",
-    "start": "tsnd -r tsconfig-paths/register --transpile-only --ignore-watch node_modules api/main.ts"
+    "start": "tsnd -r tsconfig-paths/register --transpile-only --ignore-watch node_modules src/api/main.ts"
   },
   "license": "ISC",
   "dependencies": {
@@ -22,7 +22,7 @@
     "sqlite3": "^5.1.6",
     "supertest": "^6.3.3",
     "swagger": "^0.7.5",
-    "swagger-ui-express": "^5.0.0",
+   "swagger-ui-express": "^5.0.0",
     "tsconfig-paths": "^4.2.0",
     "tsyringe": "^4.8.0",
     "typeorm": "^0.3.17"

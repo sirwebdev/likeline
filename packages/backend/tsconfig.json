@@ -5,16 +5,16 @@
     "emitDecoratorMetadata": true,
     "paths": {
       "@api/*": [
-        "api/*"
+        "src/api/*"
       ],
       "@tests/*": [
-        "tests/*"
+        "src/tests/*"
       ],
       "@domains/*": [
-        "domains/*"
+        "src/domains/*"
       ],
       "@infrastructures/*": [
-        "infrastructures/*"
+        "src/infrastructures/*"
       ]
     }
   }

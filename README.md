@@ -19,40 +19,52 @@ git clone https://github.com/pmartinsdev/likeline.git
 cd likeline
 ```
 
-2. Create a `.env` file in the `packages/backend` and `packages/frontend` folders with the following variables:
+2. Create a `.env` file in the `packages/backend` <!-- and `packages/frontend` --> folders with the following variables:
 
 **packages/backend/.env**
 ```
-PORT=5000
-DATABASE_NAME=<your-mongodb-database-name>
-DATABASE_USER=<your-mongodb-username>
-DATABASE_PASSWORD=<your-mongodb-password>
-JWT_SECRET=<your-secret-key-for-jwt>
+# Server Configuration
+PORT=3332
+JWT_SECRET=super_secret_hash
+
+# PostgreSQL Configuration
+PG_DB_USERNAME=your_postgres_username
+PG_DB_PASSWORD=your_postgres_password
+PG_DB_NAME=your_postgres_database_name
+PG_DB_HOST=localhost
+PG_DB_PORT=5432
+
+# MongoDB Configuration
+MONGO_DB_USERNAME=your_mongo_username
+MONGO_DB_PASSWORD=your_mongo_password
+MONGO_DB_NAME=your_mongo_database_name
+MONGO_DB_HOST=localhost
+MONGO_DB_PORT=27017
 ```
 
-**packages/frontend/.env**
-```
-PORT=3000
-API_URL=http://localhost:5000/api
-```
+<!-- **packages/frontend/.env** -->
+<!-- ``` -->
+<!-- PORT=3000 -->
+<!-- API_URL=http://localhost:5000/api -->
+<!-- ``` -->
 
-## Starting the Project
-To start the entire project (backend and frontend together), run the following command:
-```bash
-npm run start:project
-```
+<!-- ## Starting the Project -->
+<!-- To start the entire project (backend and frontend together), run the following command: -->
+<!-- ```bash -->
+<!-- npm run start:project -->
+<!-- ``` -->
 
-To start only the frontend, run:
-```bash
-npm run start:frontend
-```
+<!-- To start only the frontend, run: -->
+<!-- ```bash -->
+<!-- npm run start:frontend -->
+<!-- ``` -->
 
 To start only the backend, run:
 ```bash
 npm run start:backend
 ```
 
-The backend server will run on `http://localhost:5000`, and the frontend server will run on `http://localhost:3000`.
+The backend server will run on `http://localhost:3333`<!-- , and the frontend server will run on `http://localhost:3000`. -->
 
 ## Docker and Docker Compose
 LikeLine uses Docker and Docker Compose to provide a seamless setup. Docker Compose manages containers for both the backend and frontend, ensuring a smooth integration.
@@ -78,7 +90,7 @@ likeline/
   |- ...
 ```
 
-The `packages/backend` folder contains the backend server code, and the `packages/frontend` folder contains the frontend React application.
+The `packages/backend` folder contains the backend server code<!-- , and the `packages/frontend` folder contains the frontend React application. -->
 
 ## Contributing
 As this is a personal learning project, contributions are not expected. However, you are welcome to explore, experiment, and make changes to enhance your learning experience.
@@ -91,8 +103,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Special thanks to all the open-source projects that have contributed to the learning journey.
 
 ## Contact
-If you have any questions or feedback, please feel free to contact the project maintainers at project@example.com.
+If you have any questions or feedback, please feel free to contact the project maintainers at contact@paulomartins.dev
 
 Happy learning and coding! 🌐🚀
-
-Note: Replace `<your-mongodb-database-name>`, `<your-mongodb-username>`, and `<your-mongodb-password>` with your MongoDB database information.
