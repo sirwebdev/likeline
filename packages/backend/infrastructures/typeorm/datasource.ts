@@ -16,6 +16,7 @@ const postgresDataSource = new DataSource({
   host: process.env.PG_DB_HOST,
   database: process.env.PG_DB_NAME,
   migrationsTableName: 'migrations',
+  logging: true,
   entities: [POSTGRES_ENTITES_PATHING],
   port: Number(process.env.PG_DB_PORT),
   username: process.env.PG_DB_USERNAME,

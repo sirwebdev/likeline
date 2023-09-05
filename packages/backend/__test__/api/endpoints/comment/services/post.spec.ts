@@ -7,7 +7,7 @@ import { CommentPostService } from "@api/endpoints/comment/services/post"
 import { CommentRepository } from "@infrastructures/repositories/comment"
 import { TypeormUserRepository } from "@infrastructures/typeorm/repositories/user"
 import { TypeormPostRepository } from "@infrastructures/typeorm/repositories/post"
-import { MongoCommentRepository } from "@infrastructures/typeorm/repositories/comment"
+import { TypeormCommentRepository } from "@infrastructures/typeorm/repositories/comment"
 import { MockClass, createMockFromClass } from "../../../../utils/create-mock-from-class"
 import { createComment } from "../../../../utils/create-comment"
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error"
@@ -32,7 +32,7 @@ describe("SERVICE - CommentPost", () => {
   beforeEach(() => {
     userRepository = createMockFromClass(TypeormUserRepository as any)
     postRepository = createMockFromClass(TypeormPostRepository as any)
-    commentRepository = createMockFromClass(MongoCommentRepository as any)
+    commentRepository = createMockFromClass(TypeormCommentRepository as any)
 
     service = new CommentPostService(commentRepository, userRepository, postRepository)
 

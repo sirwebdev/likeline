@@ -51,13 +51,22 @@ export class TypeormPostRepository implements PostRepository {
       relations: {
         owner: true,
         likes: true,
+        comments: true
       },
       select: {
         owner: {
           username: true,
           photo_filename: true
+        },
+        comments: {
+          id: true,
+          user: {
+            username: true,
+            photo_filename: true
+          },
+          comment: true
         }
-      },
+      }
     })
 
     return foundPosts
@@ -67,6 +76,19 @@ export class TypeormPostRepository implements PostRepository {
     const foundPost = await this.repository.findOne({
       where: {
         id: post_id
+      },
+      relations: {
+        comments: true,
+      },
+      select: {
+        comments: {
+          id: true,
+          user: {
+            photo_filename: true,
+            username: true
+          },
+          comment: true
+        }
       }
     })
 

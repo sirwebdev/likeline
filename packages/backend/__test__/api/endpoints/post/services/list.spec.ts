@@ -8,17 +8,20 @@ import { PostRepository } from "@infrastructures/repositories/post";
 import { UserRepository } from "@infrastructures/repositories/user";
 import { ListPostsService } from '@api/endpoints/post/services/list';
 import { FollowRepository } from "@infrastructures/repositories/follow";
+import { CommentRepository } from '@infrastructures/repositories/comment';
 import { TypeormPostRepository } from '@infrastructures/typeorm/repositories/post';
 import { TypeormUserRepository } from '@infrastructures/typeorm/repositories/user';
+import { TypeormLikeRepository } from '@infrastructures/typeorm/repositories/like';
 import { ApiRequestError } from '@infrastructures/error-handling/api-request-error';
 import { TypeormFollowRepository } from "@infrastructures/typeorm/repositories/follow";
 import { MockClass, createMockFromClass } from "../../../../utils/create-mock-from-class";
-import { TypeormLikeRepository } from '@infrastructures/typeorm/repositories/like';
+import { TypeormCommentRepository } from '@infrastructures/typeorm/repositories/comment';
 
 let postRepository: MockClass<PostRepository>;
 let userRepository: MockClass<UserRepository>;
 let followRepository: MockClass<FollowRepository>;
 let likeRepository: MockClass<LikeRepository>;
+let commentRepository: MockClass<CommentRepository>;
 
 describe("SERVICE - ListPost", () => {
   const USER = createUser();
@@ -32,12 +35,14 @@ describe("SERVICE - ListPost", () => {
     userRepository = createMockFromClass(TypeormUserRepository as any);
     likeRepository = createMockFromClass(TypeormLikeRepository as any);
     followRepository = createMockFromClass(TypeormFollowRepository as any);
-    service = new ListPostsService(userRepository, postRepository, followRepository, likeRepository);
+    commentRepository = createMockFromClass(TypeormCommentRepository as any);
+    service = new ListPostsService(userRepository, postRepository, followRepository, likeRepository, commentRepository);
 
     likeRepository.getLikes.mockReturnValue([]);
     userRepository.findById.mockReturnValue(USER);
-    followRepository.getFollowings.mockReturnValue(FOLLOWERS);
+    commentRepository.getByPostId.mockReturnValue([]);
     postRepository.getFeedPosts.mockReturnValue(POSTS);
+    followRepository.getFollowings.mockReturnValue(FOLLOWERS);
   });
 
   describe("Successful cases", () => {

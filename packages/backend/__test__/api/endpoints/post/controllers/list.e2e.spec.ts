@@ -43,7 +43,7 @@ describe("CONTROLLER - listPost", () => {
       expect(body).toEqual(expect.arrayContaining([expect.objectContaining({
         ...post, owner: {
           username: user.username,
-          photo_url: null
+          photo_url: null,
         }
       })]));
     });
@@ -56,6 +56,20 @@ describe("CONTROLLER - listPost", () => {
 
       expect(status).toEqual(200)
       expect(body.every((post: Post) => post.likes.every(like => like.user.photo_url?.includes('/api/images/') || like.user.photo_url === null))).toBeTruthy();
+    })
+
+    it("Must all posts have comment property", async () => {
+      await api.post(`${GLOBAL_PREFIX}/likes/${post.id}`).set('Authorization', `Bearer ${token}`)
+      await api.post(`${GLOBAL_PREFIX}/comments`).set('Authorization', `Bearer ${token}`).send({
+        post_id: post.id,
+        comment: "Post Comment"
+      })
+
+      const { body, status } = await api.get(BASE_URL)
+        .set("Authorization", `Bearer ${token}`)
+
+      expect(status).toEqual(200)
+      expect(body.every((post: Post) => !!post.comments.length)).toBeTruthy();
     })
   });
 });

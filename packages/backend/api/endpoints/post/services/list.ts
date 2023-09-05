@@ -5,10 +5,11 @@ import { Post } from "@domains/entities/post";
 import { User } from "@domains/entities/user";
 import { UserRepository } from "@infrastructures/repositories/user";
 import { PostRepository } from "@infrastructures/repositories/post";
-import { FollowRepository } from "@infrastructures/repositories/follow";
-import { ApiRequestError } from "@infrastructures/error-handling/api-request-error";
-import { FOLLOW_REPOSITORY_CONTAINER, LIKE_REPOSITORY_CONTAINER, POST_REPOSITORY_CONTAINER, USER_REPOSITORY_CONTAINER } from "@infrastructures/constants/containers";
 import { LikeRepository } from "@infrastructures/repositories/like";
+import { FollowRepository } from "@infrastructures/repositories/follow";
+import { CommentRepository } from "@infrastructures/repositories/comment";
+import { ApiRequestError } from "@infrastructures/error-handling/api-request-error";
+import { COMMENT_REPOSITORY_CONTAINER, FOLLOW_REPOSITORY_CONTAINER, LIKE_REPOSITORY_CONTAINER, POST_REPOSITORY_CONTAINER, USER_REPOSITORY_CONTAINER } from "@infrastructures/constants/containers";
 
 @injectable()
 export class ListPostsService implements Service<User['id'], Post[]> {
@@ -20,7 +21,9 @@ export class ListPostsService implements Service<User['id'], Post[]> {
     @inject(FOLLOW_REPOSITORY_CONTAINER)
     private readonly followRepository: FollowRepository,
     @inject(LIKE_REPOSITORY_CONTAINER)
-    private readonly likeRepository: LikeRepository
+    private readonly likeRepository: LikeRepository,
+    @inject(COMMENT_REPOSITORY_CONTAINER)
+    private readonly commentRepository: CommentRepository
   ) { }
 
   async execute(user_id: string): Promise<Post[]> {
@@ -36,9 +39,14 @@ export class ListPostsService implements Service<User['id'], Post[]> {
     const likesForEachPostPromises = posts.map(post => this.likeRepository.getLikes(post.id))
     const likeForEachPosts = await Promise.all(likesForEachPostPromises)
 
+    const commentPromises = posts.map(post => this.commentRepository.getByPostId(post.id))
+
+    const comments = await Promise.all(commentPromises)
+
     const postsWithLikes = posts.map((post, index) => ({
       ...post,
       likes: likeForEachPosts[index],
+      comments: comments[index]
     }));
 
     return postsWithLikes;

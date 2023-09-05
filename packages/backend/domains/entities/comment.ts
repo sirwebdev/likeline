@@ -6,4 +6,5 @@ export class Comment {
   user: User;
   post: Post;
   comment: string;
+  user_id: string;
 }

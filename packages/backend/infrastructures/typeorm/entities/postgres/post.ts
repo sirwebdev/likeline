@@ -1,10 +1,12 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 import { UserEntity } from "./user";
+import { LikeEntity } from "./like";
+import { CommentEntity } from "./comment";
 import { Post } from "@domains/entities/post";
 import { User } from "@domains/entities/user";
 import { Like } from "@domains/entities/like";
-import { LikeEntity } from "./like";
+import { Comment } from "@domains/entities/comment";
 
 @Entity({ name: 'post' })
 export class PostEntity implements Post {
@@ -24,8 +26,11 @@ export class PostEntity implements Post {
   @JoinColumn({ name: "owner_id" })
   owner: User;
 
-  @ManyToOne(() => LikeEntity, like => like.post_id)
+  @ManyToOne(() => LikeEntity, like => like.post_id, { eager: true })
   likes: Like[];
+
+  @ManyToOne(() => CommentEntity, comment => comment.post_id, { eager: true })
+  comments: Comment[]
 
   @CreateDateColumn()
   created_at: Date

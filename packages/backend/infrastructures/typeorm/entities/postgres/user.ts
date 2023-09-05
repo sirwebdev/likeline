@@ -2,9 +2,11 @@ import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Up
 
 import { LikeEntity } from "./like";
 import { PostEntity } from "./post";
+import { CommentEntity } from "./comment";
 import { User } from "@domains/entities/user";
 import { Post } from "@domains/entities/post";
 import { Like } from "@domains/entities/like";
+import { Comment } from "@domains/entities/comment";
 
 @Entity({ name: 'user' })
 export class UserEntity implements User {
@@ -33,6 +35,9 @@ export class UserEntity implements User {
 
   @OneToMany(() => LikeEntity, like => like.user)
   likes: Like[]
+
+  @OneToMany(() => CommentEntity, comment => comment.user)
+  comments: Comment[]
 
   @CreateDateColumn()
   created_at: Date
