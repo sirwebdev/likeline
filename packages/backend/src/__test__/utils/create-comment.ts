@@ -13,5 +13,6 @@ export const createComment = (post_id: Post['id'], user_id: User['id']): Comment
     user,
     comment: 'Some post comment',
     post_id: createPost(user_id, post_id).id,
+    replies: []
   }
 }

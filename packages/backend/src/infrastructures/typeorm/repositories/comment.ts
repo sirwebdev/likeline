@@ -12,7 +12,7 @@ export class TypeormCommentRepository implements CommentRepository {
     this.repository = dataSource.mongo.getMongoRepository(CommentEntity)
   }
 
-  async create(payload: Omit<Comment, 'id'>): Promise<Comment> {
+  async create(payload: Omit<Comment, 'id' | 'replies'>): Promise<Comment> {
     let comment = this.repository.create(payload)
 
     await this.repository.save(comment)
