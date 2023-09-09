@@ -23,7 +23,7 @@ export class TypeormCommentRepository implements CommentRepository {
   async getByPostId(post_id: string): Promise<Comment[]> {
     const comments = await this.repository.find({
       where: {
-        "post.id": post_id
+        post_id
       },
       select: {
         user: {
@@ -31,6 +31,7 @@ export class TypeormCommentRepository implements CommentRepository {
           username: true,
           photo_filename: true,
         },
+        post: false,
         comment: true
       }
     })

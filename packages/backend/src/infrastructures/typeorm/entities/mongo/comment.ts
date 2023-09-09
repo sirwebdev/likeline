@@ -1,6 +1,5 @@
 import { Column, Entity, ObjectIdColumn } from "typeorm"
 
-import { Post } from "@domains/entities/post"
 import { User } from "@domains/entities/user"
 import { Comment } from "@domains/entities/comment"
 
@@ -13,7 +12,7 @@ export class CommentEntity implements Comment {
   comment: string
 
   @Column()
-  post: Post
+  post_id: string
 
   @Column()
   user: User

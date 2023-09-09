@@ -45,9 +45,7 @@ describe("CONTROLLER - CommentPost", () => {
       expect(status).toEqual(201)
       expect(body).toEqual(expect.objectContaining({
         comment: COMMENT,
-        post: expect.objectContaining({
-          id: POST.id
-        }),
+        post_id: POST.id,
         user: expect.objectContaining({
           id: USER.id
         })

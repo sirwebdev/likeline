@@ -10,8 +10,8 @@ export const createComment = (post_id: Post['id'], user_id: User['id']): Comment
 
   return {
     id: createRandonString(),
-    comment: 'Some post comment',
-    post: createPost(user_id, post_id),
     user,
+    comment: 'Some post comment',
+    post_id: createPost(user_id, post_id).id,
   }
 }
