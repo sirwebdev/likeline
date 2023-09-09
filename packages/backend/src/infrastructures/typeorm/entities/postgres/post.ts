@@ -2,7 +2,6 @@ import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGenerat
 
 import { UserEntity } from "./user";
 import { LikeEntity } from "./like";
-import { CommentEntity } from "./comment";
 import { Post } from "@domains/entities/post";
 import { User } from "@domains/entities/user";
 import { Like } from "@domains/entities/like";
@@ -29,7 +28,6 @@ export class PostEntity implements Post {
   @ManyToOne(() => LikeEntity, like => like.post_id, { eager: true })
   likes: Like[];
 
-  @ManyToOne(() => CommentEntity, comment => comment.post_id, { eager: true })
   comments: Comment[]
 
   @CreateDateColumn()

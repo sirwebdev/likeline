@@ -22,7 +22,7 @@ export const injectImageLink = (req: Request, res: Response) => {
         return {
           user: {
             ...restOfuser,
-            photo_url: getPhotoLink(req, photo_filename),
+            photo_url: getPhotoLink(req, photo_filename!),
           },
           ...restOfComment
         }

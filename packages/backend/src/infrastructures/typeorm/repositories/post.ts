@@ -51,21 +51,12 @@ export class TypeormPostRepository implements PostRepository {
       relations: {
         owner: true,
         likes: true,
-        comments: true
       },
       select: {
         owner: {
           username: true,
           photo_filename: true
         },
-        comments: {
-          id: true,
-          user: {
-            username: true,
-            photo_filename: true
-          },
-          comment: true
-        }
       }
     })
 
@@ -77,19 +68,6 @@ export class TypeormPostRepository implements PostRepository {
       where: {
         id: post_id
       },
-      relations: {
-        comments: true,
-      },
-      select: {
-        comments: {
-          id: true,
-          user: {
-            photo_filename: true,
-            username: true
-          },
-          comment: true
-        }
-      }
     })
 
     return foundPost ?? undefined

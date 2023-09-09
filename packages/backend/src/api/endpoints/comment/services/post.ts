@@ -27,7 +27,18 @@ export class CommentPostService implements Service<CommentPostDTO, Comment>{
     const foundPost = await this.postRepository.findById(post_id)
     if (!foundPost) throw new ApiRequestError('Post not exists', 404)
 
-    const post = await this.commentRepository.create({ post_id, user_id, comment })
+    const post = await this.commentRepository.create({
+      post: {
+        id: foundPost.id,
+        image: foundPost.image,
+        title: foundPost.title
+      }, user: {
+        id: foundUser.id,
+        username: foundUser.username,
+        photo_filename: foundUser.photo_filename
+      },
+      comment
+    })
 
     return post
   }

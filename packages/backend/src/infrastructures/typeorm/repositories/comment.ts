@@ -1,37 +1,29 @@
-import { Repository } from "typeorm";
+import { MongoRepository } from "typeorm";
 
 import { dataSource } from "../datasource";
 import { Comment } from "@domains/entities/comment";
-import { CommentEntity } from "../entities/postgres/comment";
-import { CommentPostDTO } from "@api/endpoints/comment/dtos/post";
+import { CommentEntity } from "../entities/mongo/comment";
 import { CommentRepository } from "@infrastructures/repositories/comment";
 
 export class TypeormCommentRepository implements CommentRepository {
-  private readonly repository: Repository<CommentEntity>
+  private readonly repository: MongoRepository<CommentEntity>
 
   constructor() {
-    this.repository = dataSource.postgres.getRepository(CommentEntity)
+    this.repository = dataSource.mongo.getMongoRepository(CommentEntity)
   }
 
-  async create({ comment, post_id, user_id }: CommentPostDTO): Promise<Comment> {
-    const post = this.repository.create({
-      comment,
-      post_id,
-      user_id
-    })
+  async create(payload: Omit<Comment, 'id'>): Promise<Comment> {
+    let comment = this.repository.create(payload)
 
-    await this.repository.save(post)
+    await this.repository.save(comment)
 
-    return post
+    return comment
   }
 
   async getByPostId(post_id: string): Promise<Comment[]> {
     const comments = await this.repository.find({
       where: {
-        post_id
-      },
-      relations: {
-        user: true
+        "post.id": post_id
       },
       select: {
         user: {
