@@ -1,6 +1,7 @@
 export const LIKE_REPOSITORY_CONTAINER = 'LikeRepository'
 export const USER_REPOSITORY_CONTAINER = 'UserRepository'
 export const POST_REPOSITORY_CONTAINER = 'PostRepository'
+export const REPLY_REPOSITORY_CONTAINER = 'ReplyRepository'
 export const FOLLOW_REPOSITORY_CONTAINER = 'FollowRepository'
 export const COMMENT_REPOSITORY_CONTAINER = 'CommentRepository'
 

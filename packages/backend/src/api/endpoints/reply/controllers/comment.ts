@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 import { inject, injectable } from "tsyringe";
 
 import { Service } from "@api/dtos/service";
-import { ReplyCommentDTO } from "../dtos/reply";
+import { ReplyCommentDTO } from "../dtos/comment";
 import { Comment } from "@domains/entities/comment"
 import { ResolveController } from "@infrastructures/decorators/resolve-controller";
 import { REPLY_COMMENT_SERVICE_CONTAINER } from "@infrastructures/constants/containers";

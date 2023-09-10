@@ -4,6 +4,7 @@ import { userRouter } from "./user";
 import { authRouter } from "./auth";
 import { postRoutes } from "@api/endpoints/post/route";
 import { likeRoutes } from "@api/endpoints/like/routes";
+import { replyRoutes } from "@api/endpoints/reply/route";
 import { followRoutes } from "@api/endpoints/follow/route";
 import { commentRoutes } from "@api/endpoints/comment/route";
 
@@ -17,5 +18,6 @@ apiRoutes.use('/users', userRouter)
 apiRoutes.use(authenticateRequest)
 apiRoutes.use('/posts', postRoutes)
 apiRoutes.use('/likes', likeRoutes)
+apiRoutes.use('/reply', replyRoutes)
 apiRoutes.use('/follow', followRoutes)
 apiRoutes.use('/comments', commentRoutes)

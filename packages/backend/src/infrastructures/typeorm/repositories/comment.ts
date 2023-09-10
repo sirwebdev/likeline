@@ -4,8 +4,6 @@ import { dataSource } from "../datasource";
 import { Comment } from "@domains/entities/comment";
 import { CommentEntity } from "../entities/mongo/comment";
 import { CommentRepository } from "@infrastructures/repositories/comment";
-import { ReplyCommentMethodDTO } from "@api/endpoints/comment/dtos/reply-comment-method";
-import { randomUUID } from "crypto";
 
 export class TypeormCommentRepository implements CommentRepository {
   private readonly repository: MongoRepository<CommentEntity>
@@ -42,20 +40,6 @@ export class TypeormCommentRepository implements CommentRepository {
     })
 
     return comments
-  }
-
-  async reply({ user, comment, comment_id }: ReplyCommentMethodDTO): Promise<Comment> {
-    const foundComment = await this.findById(comment_id);
-
-    foundComment!.replies.push({
-      id: randomUUID(),
-      user,
-      comment,
-    })
-
-    await this.repository.save(foundComment!)
-
-    return foundComment!
   }
 
   async findById(comment_id: any): Promise<Comment | undefined> {
