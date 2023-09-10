@@ -22,9 +22,6 @@ export class ReplyCommentService implements Service<ReplyCommentDTO, Comment>{
     if (!foundUser) throw new ApiRequestError('User not exists', 404)
 
     const foundComment = await this.commentRepository.findById(comment_id)
-
-    console.log(foundComment)
-
     if (!foundComment) throw new ApiRequestError('Comment not exists', 404)
 
     const repliedComment = await this.commentRepository.reply({
