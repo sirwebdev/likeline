@@ -2,6 +2,16 @@ declare namespace Express {
   export interface Locals {
     user: {
       photo_filename?: string
+    },
+    reply: {
+      comment: string;
+      comment_id: string;
+      user: {
+        id: string;
+        username: string;
+        photo_filename?: string;
+        photo_url?: string | null
+      }
     }
   }
 
