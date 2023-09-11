@@ -1,3 +1,4 @@
+import { Types } from "mongoose"
 import { MongoRepository } from "typeorm";
 
 import { dataSource } from "../datasource";
@@ -13,10 +14,7 @@ export class TypeormCommentRepository implements CommentRepository {
   }
 
   async create(payload: Omit<Comment, 'id' | 'replies'>): Promise<Comment> {
-    let comment = this.repository.create({
-      ...payload,
-      replies: []
-    })
+    let comment = this.repository.create(payload)
 
     await this.repository.save(comment)
 
@@ -42,13 +40,17 @@ export class TypeormCommentRepository implements CommentRepository {
     return comments
   }
 
-  async findById(comment_id: any): Promise<Comment | undefined> {
-    const foundPost = await this.repository.findOne({
-      where: {
-        id: comment_id.id
-      }
-    })
+  async findById(comment_id: string): Promise<Comment | undefined> {
+    try {
+      const foundPost = await this.repository.findOne({
+        where: {
+          _id: new Types.ObjectId(comment_id.toString())
+        }
+      })
+      return foundPost ?? undefined
+    } catch (error) {
+      return undefined
 
-    return foundPost ?? undefined
+    }
   }
 }

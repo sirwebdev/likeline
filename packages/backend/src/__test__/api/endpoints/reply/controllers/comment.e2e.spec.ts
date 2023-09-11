@@ -57,6 +57,55 @@ describe("CONTROLLER - ReplyComment", () => {
     })
   })
 
+  describe("Error cases", () => {
+    it("Must not reply a non-existent comment", async () => {
+      const { body, status } = await api.post(baseURL).send({
+        ...PAYLOAD,
+        comment_id: 'non-existent-comment-id'
+      }).set('Authorization', `Bearer ${token}`)
+
+      expect(body).toEqual(expect.objectContaining({
+        message: 'Comment not exists',
+        status: 404
+      }))
+      expect(status).toEqual(404)
+    })
+
+    it("Must not reply if user not exists", async () => {
+      const otherAuthenticatedUser = await authenticateUser(api)
+
+      await api.delete(`${GLOBAL_PREFIX}/users`).set('Authorization', `Bearer ${otherAuthenticatedUser.token}`)
+
+      const { body, status } = await api.post(baseURL).send(PAYLOAD).set('Authorization', `Bearer ${otherAuthenticatedUser.token}`)
+
+      expect(body).toEqual(expect.objectContaining({
+        message: 'User not exists',
+        status: 404
+      }))
+      expect(status).toEqual(404)
+    })
+
+    it('Must not reply a non authenticated user', async () => {
+      const { body, status } = await api.post(baseURL).send(PAYLOAD)
+
+      expect(body).toEqual(expect.objectContaining({
+        message: 'Token is missing',
+        status: 401
+      }))
+      expect(status).toEqual(401)
+    })
+
+    it('Must not reply a user with wrong Authorization token', async () => {
+      const { body, status } = await api.post(baseURL).send(PAYLOAD).set("Authorization", 'WHRONG TOKEN')
+
+      expect(body).toEqual(expect.objectContaining({
+        message: 'Invalid Token',
+        status: 401
+      }))
+      expect(status).toEqual(401)
+    })
+  })
+
   describe("Data treatment", () => {
     it("Must replied comment user data have a valid photo_url at request response", async () => {
       await api.put(`${GLOBAL_PREFIX}/users/profile-photo`).attach('photo', getImageFile()).set('Authorization', `Bearer ${token}`)

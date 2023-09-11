@@ -71,5 +71,7 @@ describe("CONTROLLER - listPost", () => {
       expect(status).toEqual(200)
       expect(body.every((post: Post) => !!post.comments.length)).toBeTruthy();
     })
+
+    // TODO: Make test to ensure all replyed data was injected into each comment replies property
   });
 });
