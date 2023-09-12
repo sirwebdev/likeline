@@ -2,6 +2,7 @@ import { injectable } from "tsyringe";
 import { MongoRepository } from "typeorm";
 
 import { dataSource } from "../datasource";
+import { User } from "@domains/entities/user";
 import { Reply } from "@domains/entities/reply";
 import { ReplyEntity } from "../entities/mongo/reply";
 import { ReplyRepository } from "@infrastructures/repositories/reply";
@@ -35,5 +36,11 @@ export class TypeormReplyRepository implements ReplyRepository {
     })
 
     return replies
+  }
+
+  async deleteAllByUserId(user_id: User['id']): Promise<void> {
+    await this.repository.delete({
+      'user.id': user_id
+    } as any)
   }
 }

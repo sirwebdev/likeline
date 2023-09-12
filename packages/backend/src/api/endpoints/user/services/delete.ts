@@ -6,7 +6,9 @@ import { UserRepository } from "@infrastructures/repositories/user";
 import { PostRepository } from "@infrastructures/repositories/post";
 import { FollowRepository } from "@infrastructures/repositories/follow";
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error";
-import { FILE_SERVICE_CONTAINER, FOLLOW_REPOSITORY_CONTAINER, POST_REPOSITORY_CONTAINER, USER_REPOSITORY_CONTAINER } from "@infrastructures/constants/containers";
+import { COMMENT_REPOSITORY_CONTAINER, FILE_SERVICE_CONTAINER, FOLLOW_REPOSITORY_CONTAINER, POST_REPOSITORY_CONTAINER, REPLY_REPOSITORY_CONTAINER, USER_REPOSITORY_CONTAINER } from "@infrastructures/constants/containers";
+import { CommentRepository } from "@infrastructures/repositories/comment";
+import { ReplyRepository } from "@infrastructures/repositories/reply";
 
 @injectable()
 export class DeleteUserService implements Service<string, void> {
@@ -18,7 +20,11 @@ export class DeleteUserService implements Service<string, void> {
     @inject(FOLLOW_REPOSITORY_CONTAINER)
     private readonly followRepository: FollowRepository,
     @inject(POST_REPOSITORY_CONTAINER)
-    private readonly postRepository: PostRepository
+    private readonly postRepository: PostRepository,
+    @inject(COMMENT_REPOSITORY_CONTAINER)
+    private readonly commentRepository: CommentRepository,
+    @inject(REPLY_REPOSITORY_CONTAINER)
+    private readonly replyRepository: ReplyRepository
   ) { }
 
   async execute(userID: string): Promise<void> {
@@ -35,8 +41,9 @@ export class DeleteUserService implements Service<string, void> {
     await Promise.all(imagesFromPostsToDeletePromises)
 
     await this.followRepository.deleteAllByUserId(foundUser.id)
-
     await this.userRepository.deleteById(foundUser.id)
+    await this.commentRepository.deleteAllByUserId(foundUser.id)
+    await this.replyRepository.deleteAllByUserId(foundUser.id)
   }
 
 }

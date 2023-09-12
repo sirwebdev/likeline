@@ -5,6 +5,7 @@ import { dataSource } from "../datasource";
 import { Comment } from "@domains/entities/comment";
 import { CommentEntity } from "../entities/mongo/comment";
 import { CommentRepository } from "@infrastructures/repositories/comment";
+import { User } from "@domains/entities/user";
 
 export class TypeormCommentRepository implements CommentRepository {
   private readonly repository: MongoRepository<CommentEntity>
@@ -52,5 +53,11 @@ export class TypeormCommentRepository implements CommentRepository {
       return undefined
 
     }
+  }
+
+  async deleteAllByUserId(user_id: User['id']): Promise<void> {
+    await this.repository.delete({
+      "user.id": user_id
+    } as any)
   }
 }
