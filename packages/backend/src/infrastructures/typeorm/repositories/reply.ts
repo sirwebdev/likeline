@@ -26,4 +26,14 @@ export class TypeormReplyRepository implements ReplyRepository {
 
     return reply
   }
+
+  async getRepliesByCommentId(comment_id: string): Promise<Reply[]> {
+    const replies = await this.repository.find({
+      where: {
+        comment_id: String(comment_id)
+      }
+    })
+
+    return replies
+  }
 }

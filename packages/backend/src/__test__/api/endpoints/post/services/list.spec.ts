@@ -16,11 +16,14 @@ import { ApiRequestError } from '@infrastructures/error-handling/api-request-err
 import { TypeormFollowRepository } from "@infrastructures/typeorm/repositories/follow";
 import { MockClass, createMockFromClass } from "../../../../utils/create-mock-from-class";
 import { TypeormCommentRepository } from '@infrastructures/typeorm/repositories/comment';
+import { ReplyRepository } from '@infrastructures/repositories/reply';
+import { TypeormReplyRepository } from '@infrastructures/typeorm/repositories/reply';
 
 let postRepository: MockClass<PostRepository>;
 let userRepository: MockClass<UserRepository>;
-let followRepository: MockClass<FollowRepository>;
 let likeRepository: MockClass<LikeRepository>;
+let replyRepository: MockClass<ReplyRepository>;
+let followRepository: MockClass<FollowRepository>;
 let commentRepository: MockClass<CommentRepository>;
 
 describe("SERVICE - ListPost", () => {
@@ -34,14 +37,16 @@ describe("SERVICE - ListPost", () => {
     postRepository = createMockFromClass(TypeormPostRepository as any);
     userRepository = createMockFromClass(TypeormUserRepository as any);
     likeRepository = createMockFromClass(TypeormLikeRepository as any);
+    replyRepository = createMockFromClass(TypeormReplyRepository as any);
     followRepository = createMockFromClass(TypeormFollowRepository as any);
     commentRepository = createMockFromClass(TypeormCommentRepository as any);
-    service = new ListPostsService(userRepository, postRepository, followRepository, likeRepository, commentRepository);
+    service = new ListPostsService(userRepository, postRepository, followRepository, likeRepository, commentRepository, replyRepository);
 
     likeRepository.getLikes.mockReturnValue([]);
     userRepository.findById.mockReturnValue(USER);
     commentRepository.getByPostId.mockReturnValue([]);
     postRepository.getFeedPosts.mockReturnValue(POSTS);
+    replyRepository.getRepliesByCommentId.mockReturnValue([]);
     followRepository.getFollowings.mockReturnValue(FOLLOWERS);
   });
 

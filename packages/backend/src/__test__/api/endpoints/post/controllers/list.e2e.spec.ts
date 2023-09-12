@@ -35,6 +35,8 @@ describe("CONTROLLER - listPost", () => {
 
 
   describe("Successful cases", () => {
+    let COMMENT_ID: string
+
     it("Must list a new post for a logged user", async () => {
       const { body, status } = await api.get(BASE_URL)
         .set("Authorization", `Bearer ${token}`)
@@ -60,10 +62,12 @@ describe("CONTROLLER - listPost", () => {
 
     it("Must all posts have comment property", async () => {
       await api.post(`${GLOBAL_PREFIX}/likes/${post.id}`).set('Authorization', `Bearer ${token}`)
-      await api.post(`${GLOBAL_PREFIX}/comments`).set('Authorization', `Bearer ${token}`).send({
+      const { body: comment } = await api.post(`${GLOBAL_PREFIX}/comments`).set('Authorization', `Bearer ${token}`).send({
         post_id: post.id,
         comment: "Post Comment"
       })
+
+      COMMENT_ID = comment.id
 
       const { body, status } = await api.get(BASE_URL)
         .set("Authorization", `Bearer ${token}`)
@@ -72,6 +76,20 @@ describe("CONTROLLER - listPost", () => {
       expect(body.every((post: Post) => !!post.comments.length)).toBeTruthy();
     })
 
-    // TODO: Make test to ensure all replyed data was injected into each comment replies property
+    it("Must all post comments have replies property", async () => {
+      await api.post(`${GLOBAL_PREFIX}/reply/comment`).set('Authorization', `Bearer ${token}`).send({
+        comment_id: COMMENT_ID,
+        comment: "Post Comment"
+      })
+
+      const { body, status } = await api.get(BASE_URL)
+        .set("Authorization", `Bearer ${token}`)
+
+      expect(status).toEqual(200)
+      body.forEach((post: Post) => {
+        const { comments } = post
+        expect(comments.every(comment => !!comment.replies.length)).toBeTruthy()
+      })
+    })
   });
 });
