@@ -10,7 +10,7 @@ services:
     ports:
       - "${MONGO_DB_PORT}:27017"
 
-  postgres_databaase:
+  postgres_database:
     image: postgres
     container_name: postgres-container
     environment:
