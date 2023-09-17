@@ -5,19 +5,25 @@ import { FileService } from "@domains/interfaces/file-service"
 import { FSFileService } from "@domains/services/file/fs-service"
 import { UserRepository } from "@infrastructures/repositories/user"
 import { PostRepository } from "@infrastructures/repositories/post"
+import { ReplyRepository } from "@infrastructures/repositories/reply"
 import { FollowRepository } from "@infrastructures/repositories/follow"
 import { DeleteUserService } from "@api/endpoints/user/services/delete"
+import { CommentRepository } from "@infrastructures/repositories/comment"
 import { TypeormPostRepository } from "@infrastructures/typeorm/repositories/post"
 import { TypeormUserRepository } from "@infrastructures/typeorm/repositories/user"
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error"
+import { TypeormReplyRepository } from "@infrastructures/typeorm/repositories/reply"
 import { TypeormFollowRepository } from "@infrastructures/typeorm/repositories/follow"
+import { TypeormCommentRepository } from "@infrastructures/typeorm/repositories/comment"
 import { MockClass, createMockFromClass } from "../../../../utils/create-mock-from-class"
 
 let service: DeleteUserService
 let fileService: MockClass<FileService>
 let repository: MockClass<UserRepository>
 let postRepository: MockClass<PostRepository>
+let replyRepository: MockClass<ReplyRepository>
 let followRepository: MockClass<FollowRepository>
+let commentRepository: MockClass<CommentRepository>
 
 describe("SERVICE - DeleteUser", () => {
   const USER = createUser()
@@ -26,9 +32,11 @@ describe("SERVICE - DeleteUser", () => {
     fileService = createMockFromClass(FSFileService as any)
     repository = createMockFromClass(TypeormUserRepository as any)
     postRepository = createMockFromClass(TypeormPostRepository as any)
+    replyRepository = createMockFromClass(TypeormReplyRepository as any)
     followRepository = createMockFromClass(TypeormFollowRepository as any)
+    commentRepository = createMockFromClass(TypeormCommentRepository as any)
 
-    service = new DeleteUserService(repository, fileService, followRepository, postRepository)
+    service = new DeleteUserService(repository, fileService, followRepository, postRepository, commentRepository, replyRepository)
   })
 
   describe("Successful cases", () => {
@@ -70,6 +78,19 @@ describe("SERVICE - DeleteUser", () => {
       posts.forEach((post) => {
         expect(fileService.deleteFile).toHaveBeenCalledWith(post.image)
       })
+    })
+
+    it('Must delete all user comments', async () => {
+      await service.execute(USER.id)
+
+      expect(commentRepository.deleteAllByUserId).toHaveBeenCalledWith(USER.id)
+    })
+
+
+    it('Must delete all user comments', async () => {
+      await service.execute(USER.id)
+
+      expect(replyRepository.deleteAllByUserId).toHaveBeenCalledWith(USER.id)
     })
   })
 
