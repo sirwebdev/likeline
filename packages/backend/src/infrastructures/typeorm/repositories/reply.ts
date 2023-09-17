@@ -43,4 +43,10 @@ export class TypeormReplyRepository implements ReplyRepository {
       'user.id': user_id
     } as any)
   }
+
+  async deleteAllByCommentId(comment_id: string): Promise<void> {
+    await this.repository.delete({
+      comment_id
+    })
+  }
 }

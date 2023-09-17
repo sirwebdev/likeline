@@ -12,7 +12,6 @@ import { authenticateUser } from "../../../../utils/authenticate-user"
 let user: User
 let post: Post
 let token: string
-let comment: Comment
 let api: SuperTest<Test>
 let baseURL = `${GLOBAL_PREFIX}/reply/comment`
 
@@ -22,9 +21,9 @@ const createPost = async (): Promise<Post> => {
   return body
 }
 
-const createComment = async (): Promise<Comment> => {
+const createComment = async (post_id: string): Promise<Comment> => {
   const { body } = await api.post(`${GLOBAL_PREFIX}/comments`).send({
-    post_id: post.id,
+    post_id,
     comment: 'Post comment'
   }).set('Authorization', `Bearer ${token}`)
 
@@ -50,16 +49,16 @@ describe("CONTROLLER - ReplyComment", () => {
     token = authenticatedResponse.token
 
     post = await createPost()
-    comment = await createComment()
-
-    PAYLOAD = {
-      comment_id: comment.id,
-      comment: 'Reply comment'
-    }
   })
 
   describe("Successful cases", () => {
     it("Must reply an existent comment", async () => {
+      const comment = await createComment(post.id)
+      const PAYLOAD = {
+        comment_id: comment.id,
+        comment: 'Reply comment'
+      }
+
       const { body, status } = await createReply(PAYLOAD, token)
 
       expect(body).toEqual(expect.objectContaining({
@@ -126,7 +125,7 @@ describe("CONTROLLER - ReplyComment", () => {
   describe("Data treatment", () => {
     it("Must replied comment user data have a valid photo_url at request response", async () => {
       await api.put(`${GLOBAL_PREFIX}/users/profile-photo`).attach('photo', getImageFile()).set('Authorization', `Bearer ${token}`)
-      const commentResponse = await createComment()
+      const commentResponse = await createComment(post.id)
 
       const { body } = await createReply({ ...PAYLOAD, comment_id: commentResponse.id }, token)
 
@@ -137,7 +136,7 @@ describe("CONTROLLER - ReplyComment", () => {
     })
 
     it("Must replied comment user data not have user password", async () => {
-      const commentResponse = await createComment()
+      const commentResponse = await createComment(post.id)
 
       const { body } = await createReply({ ...PAYLOAD, comment_id: commentResponse.id }, token)
 

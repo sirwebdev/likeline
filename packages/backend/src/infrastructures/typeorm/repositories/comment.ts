@@ -60,4 +60,10 @@ export class TypeormCommentRepository implements CommentRepository {
       "user.id": user_id
     } as any)
   }
+
+  async deleteAllByPostId(post_id: string): Promise<void> {
+    await this.repository.delete({
+      post_id
+    })
+  }
 }

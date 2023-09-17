@@ -4,7 +4,8 @@ import { Comment } from "@domains/entities/comment"
 import { ReplyCommentMethodDTO } from "@api/endpoints/reply/dtos/reply-comment-method";
 
 export class ReplyRepository {
-  deleteAllByUserId: (user_id: User['id']) => Promise<void>
+  deleteAllByUserId: (user_id: User['id']) => Promise<void>;
+  deleteAllByCommentId: (comment_id: Comment['id']) => Promise<void>;
   reply: (payload: ReplyCommentMethodDTO) => Promise<Reply>;
-  getRepliesByCommentId: (comment_id: Comment['id']) => Promise<Reply[]>
+  getRepliesByCommentId: (comment_id: Comment['id']) => Promise<Reply[]>;
 }

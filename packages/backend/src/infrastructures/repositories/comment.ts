@@ -4,7 +4,8 @@ import { Comment } from "@domains/entities/comment"
 
 export class CommentRepository {
   getByPostId: (post_id: Post['id']) => Promise<Comment[]>;
-  deleteAllByUserId: (user_id: User['id']) => Promise<void>
-  findById: (comment_id: Comment['id']) => Promise<Comment | undefined>
+  deleteAllByUserId: (user_id: User['id']) => Promise<void>;
+  deleteAllByPostId: (post_id: Post['id']) => Promise<void>;
+  findById: (comment_id: Comment['id']) => Promise<Comment | undefined>;
   create: (payload: Omit<Comment, 'id' | 'replies'>) => Promise<Comment>;
 }
