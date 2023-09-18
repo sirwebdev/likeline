@@ -5,6 +5,6 @@ export class Comment {
   id: string;
   comment: string;
   post_id: string;
+  replies: Reply[];
   user: Pick<User, "id" | "username" | "photo_filename" | "photo_url">;
-  replies: Reply[]
 }

@@ -56,9 +56,16 @@ export class TypeormCommentRepository implements CommentRepository {
   }
 
   async deleteAllByUserId(user_id: User['id']): Promise<void> {
-    await this.repository.delete({
-      "user.id": user_id
-    } as any)
+    const comments = await this.repository.find(({
+      where: {
+        "user.id": user_id
+      }
+    }))
+
+    const commentsToDeletePromises = comments.map(comment => this.repository.deleteOne({
+      _id: new Types.ObjectId(comment.id.toString())
+    }))
+    await Promise.all(commentsToDeletePromises)
   }
 
   async deleteAllByPostId(post_id: string): Promise<void> {

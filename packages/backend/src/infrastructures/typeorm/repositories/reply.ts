@@ -1,5 +1,5 @@
 import { injectable } from "tsyringe";
-import { MongoRepository } from "typeorm";
+import { FindOptionsWhere, MongoRepository } from "typeorm";
 
 import { dataSource } from "../datasource";
 import { User } from "@domains/entities/user";
@@ -41,12 +41,12 @@ export class TypeormReplyRepository implements ReplyRepository {
   async deleteAllByUserId(user_id: User['id']): Promise<void> {
     await this.repository.delete({
       'user.id': user_id
-    } as any)
+    } as FindOptionsWhere<ReplyEntity>)
   }
 
   async deleteAllByCommentId(comment_id: string): Promise<void> {
     await this.repository.delete({
-      comment_id
+      comment_id: comment_id.toString()
     })
   }
 }

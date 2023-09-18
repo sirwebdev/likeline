@@ -1,4 +1,3 @@
-
 import { inject, injectable } from "tsyringe";
 
 import { Service } from "@api/dtos/service";
