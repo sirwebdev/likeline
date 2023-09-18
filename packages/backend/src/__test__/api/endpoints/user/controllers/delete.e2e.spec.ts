@@ -83,10 +83,8 @@ describe("CONTROLLER - DeleteUser", () => {
     it("Must not delete other user comment when user deletes him account", async () => {
       // Create a new Post
       const post = await createPost(firstUser.token, api)
-
       // Comment the newest created post
       const firstUserComment = await commentPost(firstUser.token, post.id, api)
-
       // Comment the same post with other user account
       await commentPost(secondUser.token, post.id, api)
 
@@ -95,7 +93,6 @@ describe("CONTROLLER - DeleteUser", () => {
 
       // Check if post still have the owner comment
       const { body: [postResponse] } = await api.get(`${GLOBAL_PREFIX}/posts`).set('Authorization', `Bearer ${firstUser.token}`)
-
       expect(postResponse.comments).toEqual(expect.arrayContaining([expect.objectContaining({
         id: firstUserComment.id,
         user: expect.objectContaining({
