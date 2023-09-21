@@ -1,5 +1,6 @@
+import { Types } from "mongoose";
 import { injectable } from "tsyringe";
-import { FindOptionsWhere, MongoRepository } from "typeorm";
+import { MongoRepository } from "typeorm";
 
 import { dataSource } from "../datasource";
 import { User } from "@domains/entities/user";
@@ -39,9 +40,16 @@ export class TypeormReplyRepository implements ReplyRepository {
   }
 
   async deleteAllByUserId(user_id: User['id']): Promise<void> {
-    await this.repository.delete({
-      'user.id': user_id
-    } as FindOptionsWhere<ReplyEntity>)
+    const replies = await this.repository.find(({
+      where: {
+        "user.id": user_id
+      }
+    }))
+
+    const repliesToDeletePromises = replies.map(comment => this.repository.deleteOne({
+      _id: new Types.ObjectId(comment.id.toString())
+    }))
+    await Promise.all(repliesToDeletePromises)
   }
 
   async deleteAllByCommentId(comment_id: string): Promise<void> {

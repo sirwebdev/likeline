@@ -75,7 +75,7 @@ describe("CONTROLLER - DeleteUser", () => {
     let firstUser: AuthenticatedUser
     let secondUser: AuthenticatedUser
 
-    beforeAll(async () => {
+    beforeEach(async () => {
       firstUser = await authenticateUser(api)
       secondUser = await authenticateUser(api)
     })
