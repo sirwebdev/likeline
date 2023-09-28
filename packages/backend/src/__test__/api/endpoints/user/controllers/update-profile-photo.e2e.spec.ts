@@ -50,4 +50,10 @@ describe("CONTROLLER - UpdateProfilePhoto", () => {
     })
   })
 
+  // TODO: Make test for update user comments and replies profile photo
+  // describe("Treatment Data", () => {
+  //   it("Must update user profile photo on all user post comments", async () => {
+
+  //   })
+  // })
 })

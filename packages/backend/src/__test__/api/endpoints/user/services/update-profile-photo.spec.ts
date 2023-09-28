@@ -2,17 +2,23 @@ import { createUser } from "../../../../utils/create-user"
 import { FileService } from "@domains/interfaces/file-service"
 import { FSFileService } from "@domains/services/file/fs-service"
 import { UserRepository } from "@infrastructures/repositories/user"
+import { ReplyRepository } from "@infrastructures/repositories/reply"
 import { FollowRepository } from "@infrastructures/repositories/follow"
+import { CommentRepository } from "@infrastructures/repositories/comment"
 import { TypeormUserRepository } from "@infrastructures/typeorm/repositories/user"
 import { ApiRequestError } from "@infrastructures/error-handling/api-request-error"
+import { TypeormReplyRepository } from "@infrastructures/typeorm/repositories/reply"
 import { TypeormFollowRepository } from "@infrastructures/typeorm/repositories/follow"
+import { TypeormCommentRepository } from "@infrastructures/typeorm/repositories/comment"
 import { MockClass, createMockFromClass } from "../../../../utils/create-mock-from-class"
 import { UpdateProfilePhotoService } from "@api/endpoints/user/services/update-profile-photo"
 
 let service: UpdateProfilePhotoService
 let fileService: MockClass<FileService>
 let userRepository: MockClass<UserRepository>
+let replyRepository: MockClass<ReplyRepository>
 let followRepository: MockClass<FollowRepository>
+let commentRepository: MockClass<CommentRepository>
 
 describe("SERVICE - UpdateProfilePhoto", () => {
   const USER = createUser()
@@ -21,9 +27,11 @@ describe("SERVICE - UpdateProfilePhoto", () => {
   beforeEach(() => {
     fileService = createMockFromClass(FSFileService as any)
     userRepository = createMockFromClass(TypeormUserRepository as any)
+    replyRepository = createMockFromClass(TypeormReplyRepository as any)
     followRepository = createMockFromClass(TypeormFollowRepository as any)
+    commentRepository = createMockFromClass(TypeormCommentRepository as any)
 
-    service = new UpdateProfilePhotoService(userRepository, fileService, followRepository)
+    service = new UpdateProfilePhotoService(userRepository, fileService, followRepository, replyRepository, commentRepository)
   })
 
   describe("Successful cases", () => {
@@ -63,11 +71,30 @@ describe("SERVICE - UpdateProfilePhoto", () => {
 
   describe("Error cases", () => {
     beforeEach(() => {
-      userRepository.findById.mockReturnValue(undefined)
+      userRepository.findById.mockReturnValueOnce(undefined)
     })
 
     it("Must not update user profile when user not exists", async () => {
       await expect(service.execute({ userID: USER.id, tempFilename: TEMP_FILE_NAME })).rejects.toBeInstanceOf(ApiRequestError)
+    })
+  })
+
+  describe("Treatment Data", () => {
+    beforeEach(() => {
+      userRepository.findById.mockReturnValue(USER)
+      userRepository.update.mockReturnValue(USER)
+    })
+
+    it("Must update all user comment profile photo when update user photo", async () => {
+      await service.execute({ userID: USER.id, tempFilename: TEMP_FILE_NAME })
+
+      expect(commentRepository.updatePhotoFromAllCommentsByUserID).toHaveBeenCalledWith(USER.id, `${USER.id}_profile.ext`)
+    })
+
+    it("Must update all user comment reply profile photo when update user photo", async () => {
+      await service.execute({ userID: USER.id, tempFilename: TEMP_FILE_NAME })
+
+      expect(replyRepository.updatePhotoFromAllRepliesByUserID).toHaveBeenCalledWith(USER.id, `${USER.id}_profile.ext`)
     })
   })
 })

@@ -43,12 +43,12 @@ export class TypeormCommentRepository implements CommentRepository {
 
   async findById(comment_id: string): Promise<Comment | undefined> {
     try {
-      const foundPost = await this.repository.findOne({
+      const foundComment = await this.repository.findOne({
         where: {
           _id: new Types.ObjectId(comment_id.toString())
         }
       })
-      return foundPost ?? undefined
+      return foundComment ?? undefined
     } catch (error) {
       return undefined
 
@@ -72,5 +72,23 @@ export class TypeormCommentRepository implements CommentRepository {
     await this.repository.delete({
       post_id
     })
+  }
+
+  async updatePhotoFromAllCommentsByUserID(user_id: User['id'], filename: User['photo_filename']): Promise<void> {
+    const foundComments = await this.repository.find({
+      where: {
+        'user.id': user_id
+      }
+    })
+
+    const commentsToUpdateUserFilename = foundComments.map(comment => this.repository.update({
+      id: comment.id
+    }, {
+      user: {
+        photo_filename: filename
+      }
+    }))
+
+    await Promise.all(commentsToUpdateUserFilename)
   }
 }

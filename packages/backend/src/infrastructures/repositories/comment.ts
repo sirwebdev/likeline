@@ -8,4 +8,5 @@ export class CommentRepository {
   deleteAllByPostId: (post_id: Post['id']) => Promise<void>;
   findById: (comment_id: Comment['id']) => Promise<Comment | undefined>;
   create: (payload: Omit<Comment, 'id' | 'replies'>) => Promise<Comment>;
+  updatePhotoFromAllCommentsByUserID: (user_id: User['id'], filename: User['photo_filename']) => Promise<void>
 }

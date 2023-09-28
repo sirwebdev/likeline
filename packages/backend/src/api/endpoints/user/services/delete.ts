@@ -40,7 +40,6 @@ export class DeleteUserService implements Service<string, void> {
 
     await Promise.all(imagesFromPostsToDeletePromises)
 
-    console.log(`Deleting for userID: ${foundUser.id}`);
     await this.followRepository.deleteAllByUserId(foundUser.id)
     await this.userRepository.deleteById(foundUser.id)
     await this.commentRepository.deleteAllByUserId(foundUser.id)

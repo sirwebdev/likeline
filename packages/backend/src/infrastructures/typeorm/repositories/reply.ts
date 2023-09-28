@@ -57,4 +57,22 @@ export class TypeormReplyRepository implements ReplyRepository {
       comment_id: comment_id.toString()
     })
   }
+
+  async updatePhotoFromAllRepliesByUserID(user_id: User['id'], filename: User['photo_filename']): Promise<void> {
+    const foundReplies = await this.repository.find({
+      where: {
+        'user.id': user_id
+      }
+    })
+
+    const repliesToUpdateUserFilename = foundReplies.map(reply => this.repository.update({
+      id: reply.id
+    }, {
+      user: {
+        photo_filename: filename
+      }
+    }))
+
+    await Promise.all(repliesToUpdateUserFilename)
+  }
 }
